@@ -1,8 +1,14 @@
 # Timbiriche
 
-In Timbiriche (dots and crosses), the gameboard has rooms with four walls. Players take turns building a wall.
-When a room has all walls, the room is owned by a player.
+In Timbiriche (dots and boxes), the gameboard has rooms with four walls. Players take turns building a wall.
+When a room has all walls, the room is owned by a player, and the player gets to build one more wall.
 When all rooms are built, the player with the most rooms wins.
+
+## Play
+
+Play the game: [play-timbiriche.vercel.app](play-timbiriche.vercel.app)
+
+To test the game by yourself, open the same game url in another browser (or incognito).
 
 ## Getting Started
 
