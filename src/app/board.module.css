@@ -1,0 +1,34 @@
+.square {
+  position: relative;
+  min-width: 50px;
+  aspect-ratio: 1;
+  border: 1px solid lightgrey;
+}
+
+.button {
+  cursor: pointer;
+  width: 70.71%;
+  height: 70.71%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: left top;
+}
+
+.buttonTop {
+  transform: rotate(-45deg);
+}
+
+.buttonRight {
+  left: 100%;
+  transform: rotate(45deg);
+}
+
+.buttonBottom {
+  transform: rotate(-45deg);
+  top: 100%;
+}
+
+.buttonLeft {
+  transform: rotate(45deg);
+}

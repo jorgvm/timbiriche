@@ -1,95 +1,174 @@
-import Image from "next/image";
+"use client";
+
 import styles from "./page.module.css";
+import boardStyles from "./board.module.css";
+import { useState } from "react";
+import clsx from "clsx";
+
+interface Game {
+  id: string;
+  board: Square[];
+}
+
+interface Square {
+  owner?: string;
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  x: number;
+  y: number;
+}
+[];
+
+const playerId = "abc";
+
+const generateBoard = (maxRows: number, maxCols: number): Square[] => {
+  let newBoard: Square[] = [];
+
+  for (let y = 0; y < maxRows; y++) {
+    for (let x = 0; x < maxCols; x++) {
+      newBoard.push({
+        owner: undefined,
+        top: undefined,
+        right: undefined,
+        bottom: undefined,
+        left: undefined,
+        x,
+        y,
+      });
+    }
+  }
+
+  return newBoard;
+};
+
+const GameBoard = ({
+  board,
+  placeWall,
+}: {
+  board: Square[];
+  placeWall: Function;
+}) => {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(4, 1fr)",
+      }}
+    >
+      {board?.map((square, index) => {
+        return (
+          <div
+            key={index}
+            className={boardStyles.square}
+            style={{
+              background: square.owner && "red",
+              borderTopColor: square.top && "black",
+              borderRightColor: square.right && "black",
+              borderBottomColor: square.bottom && "black",
+              borderLeftColor: square.left && "black",
+            }}
+          >
+            <button
+              className={clsx(boardStyles.button, boardStyles.buttonTop)}
+              onClick={() => placeWall({ square, side: "top" })}
+            ></button>
+
+            <button
+              className={clsx(boardStyles.button, boardStyles.buttonRight)}
+              onClick={() => placeWall({ square, side: "right" })}
+            ></button>
+
+            <button
+              className={clsx(boardStyles.button, boardStyles.buttonBottom)}
+              onClick={() => placeWall({ square, side: "bottom" })}
+            ></button>
+
+            <button
+              className={clsx(boardStyles.button, boardStyles.buttonLeft)}
+              onClick={() => placeWall({ square, side: "left" })}
+            ></button>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default function Home() {
+  const [board, setBoard] = useState(generateBoard(4, 4));
+
+  const updateBoard = ({
+    square,
+    side,
+  }: {
+    square: Square;
+    side: "top" | "right" | "bottom" | "left";
+  }) => {
+    console.log("place", square, side);
+
+    const updatedBoard = board.map((i) => {
+      if (!i[side] && i.x === square.x && i.y === square.y) {
+        // Update wall
+        i[side] = playerId;
+      }
+
+      // Rooms share a wall. Easy fix: update the neighbouring room as well
+      if (
+        !i["right"] &&
+        side === "left" &&
+        i.y === square.y &&
+        i.x === square.x - 1
+      ) {
+        i["right"] = playerId;
+      }
+
+      if (
+        !i["bottom"] &&
+        side === "top" &&
+        i.x === square.x &&
+        i.y === square.y - 1
+      ) {
+        i["bottom"] = playerId;
+      }
+
+      if (
+        !i["left"] &&
+        side === "right" &&
+        i.y === square.y &&
+        i.x === square.x + 1
+      ) {
+        i["left"] = playerId;
+      }
+
+      if (
+        !i["top"] &&
+        side === "bottom" &&
+        i.x === square.x &&
+        i.y === square.y + 1
+      ) {
+        i["top"] = playerId;
+      }
+
+      // If all walls are set, set owner
+      if (!i.owner && i.top && i.right && i.bottom && i.left) {
+        i.owner = playerId;
+      }
+      return i;
+    });
+
+    // Update board
+    setBoard(updatedBoard);
+  };
+
+  console.log({
+    board,
+  });
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <GameBoard board={board} placeWall={updateBoard} />
     </main>
   );
 }
