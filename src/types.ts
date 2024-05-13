@@ -23,6 +23,6 @@ interface Game {
   players: Player[];
   gridWidth: number;
   gridHeight: number;
-  status: "waiting" | "playing" | "finished";
-  turnId?: number;
+  status: "waiting-for-players" | "playing" | "finished";
+  activePlayerId?: string;
 }

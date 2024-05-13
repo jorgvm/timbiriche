@@ -5,11 +5,12 @@ import { db } from "../utils/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { DB_COLLECTION, generateGameboard } from "../utils/board";
+import { getPlayerId } from "@/utils/player";
 
-const StartGame = () => {
+const CreateGame = () => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [gridSize, setGridSize] = useState("5x5");
+  const [gridSize, setGridSize] = useState("3x3");
   const router = useRouter();
 
   // Create a new game
@@ -26,18 +27,18 @@ const StartGame = () => {
     // Get grid dimension numbers from string
     const [gridWidth, gridHeight] = gridSize.split("x").map((i) => Number(i));
 
-    // Set up game data
+    // Generate game data
     const gameData: Game = {
       players: [
         {
-          id: "abc",
+          id: getPlayerId(),
           name,
         },
       ],
       gameboard: generateGameboard(gridWidth, gridHeight),
       gridWidth,
       gridHeight,
-      status: "waiting",
+      status: "waiting-for-players",
     };
 
     // Sent data to Firebase
@@ -70,4 +71,4 @@ const StartGame = () => {
   );
 };
 
-export default StartGame;
+export default CreateGame;

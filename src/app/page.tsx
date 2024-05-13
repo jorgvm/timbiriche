@@ -1,10 +1,10 @@
 import styles from "./page.module.css";
-import StartGame from "@/components/start-game";
+import CreateGame from "@/components/create-game";
 
 export default function Home() {
   return (
     <main className={styles.main}>
-      <StartGame />
+      <CreateGame />
     </main>
   );
 }
