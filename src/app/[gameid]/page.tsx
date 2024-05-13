@@ -8,6 +8,7 @@ import { db } from "@/utils/firebase";
 import Lobby from "@/components/lobby";
 import { getPlayerId } from "@/utils/player";
 import JoinGame from "@/components/join-game";
+import Link from "next/link";
 
 type Props = {
   params: {
@@ -17,6 +18,7 @@ type Props = {
 
 export default function Game({ params }: Props) {
   const [gameData, setGameData] = useState<Game>();
+  const [error, setError] = useState(false);
 
   const gameId = params.gameid;
 
@@ -32,7 +34,7 @@ export default function Game({ params }: Props) {
           setGameData(docSnap.data() as Game);
         } else {
           // Game doesn't exist
-          console.log("game doesn't exist!");
+          setError(true);
           return;
         }
       });
@@ -41,12 +43,23 @@ export default function Game({ params }: Props) {
     getData();
   }, [gameId]);
 
+  if (error) {
+    return (
+      <div>
+        <p>This game doesn&lsquo;t exist</p>
+        <Link href="/">Create new game!</Link>
+      </div>
+    );
+  }
+
   if (!gameData) {
     return <div>loading...</div>;
   }
 
   return (
     <div>
+      <h1>Timbiriche</h1>
+
       {gameData.status === "waiting-for-players" && hasJoined && (
         <Lobby gameId={gameId} gameData={gameData} />
       )}

@@ -2,41 +2,135 @@
   display: grid;
   width: 90vw;
   max-width: 500px;
+  padding: 10px;
+  position: relative;
+
+  /* Isometric view */
+  transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg);
 }
 
 .room {
-  position: relative;
-  min-width: 50px;
+  color: #f4f4f4; /* default room color */
   aspect-ratio: 1;
-  border: 5px solid lightgrey;
-  margin-right: -5px;
-  margin-bottom: -5px;
+  position: relative;
+  background: currentColor;
+  margin: 1px;
+  transition: all 0.6s;
+
+  /* Dark edge for 3d effect */
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    aspect-ratio: 1;
+    width: 10%;
+    background: currentColor;
+    height: 110%;
+    top: 0px;
+    left: -10%;
+    clip-path: polygon(0% 9%, 100% 0, 100% 91%, 0% 100%);
+    filter: brightness(65%);
+  }
+
+  /* Dark edge for 3d effect */
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    aspect-ratio: 1;
+    background: currentColor;
+    width: 110%;
+    height: 10%;
+    top: 100%;
+    left: -10%;
+    clip-path: polygon(9% 0%, 100% 0, 91% 100%, 0% 100%);
+    filter: brightness(75%);
+  }
 }
 
-.button {
+.roomOwned .wall {
+  cursor: default;
+}
+
+/* Lower owned rooms */
+.roomOwned {
+  transform: translate(-7%, 7%);
+}
+
+/* Lift room up when hovering */
+.room:not(.roomOwned):hover {
+  z-index: 1;
+  transform: translate(7%, -7%);
+  filter: brightness(1.2);
+}
+
+.wall {
+  /* The hit area of a wall is a triangular shape, to make a click easier */
   cursor: pointer;
-  width: 70.71%;
-  height: 70.71%;
   position: absolute;
+  color: inherit;
+  padding: 0;
   top: 0;
   left: 0;
-  transform-origin: left top;
+  width: 100%;
+  height: 100%;
+  transition: all 0.4s;
+
+  /* Wall is shown in before element */
+  &::before {
+    content: "";
+    display: block;
+    top: 0;
+    right: 0%;
+    position: absolute;
+    background: currentColor;
+    filter: brightness(0.5);
+    opacity: 0;
+    transition: all 0.2s;
+  }
 }
 
-.buttonTop {
-  transform: rotate(-45deg);
+.wallTop {
+  clip-path: polygon(0% 0%, 100% 0, 50% 50%);
+
+  &::before {
+    width: 100%;
+    height: 10%;
+  }
 }
 
-.buttonRight {
-  left: 100%;
-  transform: rotate(45deg);
+.wallRight {
+  clip-path: polygon(50% 50%, 100% 0%, 100% 100%);
+
+  &::before {
+    width: 10px;
+    height: 100%;
+  }
 }
 
-.buttonBottom {
-  transform: rotate(-45deg);
-  top: 100%;
+.wallBottom {
+  clip-path: polygon(50% 50%, 100% 100%, 0% 100%);
+
+  &::before {
+    width: 100%;
+    height: 10%;
+    top: 90%;
+  }
 }
 
-.buttonLeft {
-  transform: rotate(45deg);
+.wallLeft {
+  clip-path: polygon(0% 0%, 50% 50%, 0% 100%);
+
+  &::before {
+    width: 10%;
+    height: 100%;
+    top: 0;
+    left: 0px;
+  }
+}
+
+/* Show active wall */
+.room:not(.roomOwned) .wallActive:before {
+  opacity: 1;
 }

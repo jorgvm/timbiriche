@@ -6,10 +6,8 @@ import clsx from "clsx";
 import { DB_COLLECTION, updateGameboard } from "../utils/board";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
-import { getNextPlayer, getPlayerId } from "@/utils/player";
+import { getNextPlayer, getPlayerId, playerColors } from "@/utils/player";
 import { findMostFrequent } from "@/utils/helpers";
-
-const playerColours = ["red", "blue", "yellow", "green", "brown"];
 
 const Gameboard = ({
   gameId,
@@ -79,15 +77,9 @@ const Gameboard = ({
     await updateDoc(doc(db, DB_COLLECTION, gameId), data);
   };
 
-  if (!gameData || !player) {
+  if (!gameData) {
     return <div>loading</div>;
   }
-
-  console.log(
-    gameData,
-    playersWithMostRooms,
-    playersWithMostRooms.map((i) => gameData.players.find((p) => p.id === i))
-  );
 
   return (
     <div>
@@ -101,52 +93,49 @@ const Gameboard = ({
         {gameData?.gameboard?.map((room, index) => (
           <div
             key={index}
-            className={styles.room}
+            className={clsx(styles.room, room.owner && styles.roomOwned)}
             style={{
-              background: room.owner
-                ? playerColours[
+              color: room.owner
+                ? playerColors[
                     gameData.players.map((i) => i.id).indexOf(room.owner)
                   ]
                 : undefined,
-              borderTopColor: room.top
-                ? playerColours[
-                    gameData.players.map((i) => i.id).indexOf(room.top)
-                  ]
-                : undefined,
-              borderRightColor: room.right
-                ? playerColours[
-                    gameData.players.map((i) => i.id).indexOf(room.right)
-                  ]
-                : undefined,
-              borderBottomColor: room.bottom
-                ? playerColours[
-                    gameData.players.map((i) => i.id).indexOf(room.bottom)
-                  ]
-                : undefined,
-              borderLeftColor: room.left
-                ? playerColours[
-                    gameData.players.map((i) => i.id).indexOf(room.left)
-                  ]
-                : undefined,
+              zIndex: -room.x,
             }}
           >
             <button
-              className={clsx(styles.button, styles.buttonTop)}
+              className={clsx(
+                styles.wall,
+                styles.wallTop,
+                room.top && styles.wallActive
+              )}
               onClick={() => handleWallClick("top", room)}
             ></button>
 
             <button
-              className={clsx(styles.button, styles.buttonRight)}
+              className={clsx(
+                styles.wall,
+                styles.wallRight,
+                room.right && styles.wallActive
+              )}
               onClick={() => handleWallClick("right", room)}
             ></button>
 
             <button
-              className={clsx(styles.button, styles.buttonBottom)}
+              className={clsx(
+                styles.wall,
+                styles.wallBottom,
+                room.bottom && styles.wallActive
+              )}
               onClick={() => handleWallClick("bottom", room)}
             ></button>
 
             <button
-              className={clsx(styles.button, styles.buttonLeft)}
+              className={clsx(
+                styles.wall,
+                styles.wallLeft,
+                room.left && styles.wallActive
+              )}
               onClick={() => handleWallClick("left", room)}
             ></button>
           </div>

@@ -2,6 +2,14 @@ import Cookies from "js-cookie";
 
 const COOKIES_ID = "timbiriche-player-id";
 
+export const playerColors = [
+  "#ffda6a", // yellow
+  "#f06153", // red
+  "#5ab1f0", // blue
+  "#6dda66", // green
+  "#da66bd", // purple
+];
+
 /**
  * Returns existing id set in cookies
  * If not set yet, generate new id and write to cookie

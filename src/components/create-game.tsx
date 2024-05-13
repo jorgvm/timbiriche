@@ -9,8 +9,9 @@ import { getPlayerId } from "@/utils/player";
 
 const CreateGame = () => {
   const [name, setName] = useState("");
+
   const [loading, setLoading] = useState(false);
-  const [gridSize, setGridSize] = useState("3x3");
+  const [gridSize, setGridSize] = useState("4x4");
   const router = useRouter();
 
   // Create a new game
@@ -55,6 +56,17 @@ const CreateGame = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <select
+          value={gridSize}
+          onChange={(e) => setGridSize(e.target.value)}
+          disabled={loading}
+        >
+          <option value="3x3">Small</option>
+          <option value="4x4">Medium</option>
+          <option value="5x5">Large</option>
+          <option value="5x7">XXL</option>
+        </select>
+
         <input
           type="text"
           value={name}

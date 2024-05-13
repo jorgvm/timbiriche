@@ -1,6 +1,6 @@
 "use client";
 
-import { getPlayerId } from "@/utils/player";
+import { getPlayerId, playerColors } from "@/utils/player";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { DB_COLLECTION } from "@/utils/board";
@@ -25,12 +25,40 @@ const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
 
   return (
     <div>
-      Players:
-      <div>
+      <h1>Players:</h1>
+
+      <ul>
         {gameData.players.map((player, index) => {
-          return <div key={index}>{player.name}</div>;
+          return (
+            <li key={index}>
+              <span
+                style={{
+                  color:
+                    playerColors[
+                      gameData.players.map((i) => i.id).indexOf(player.id)
+                    ],
+                }}
+              >
+                &#11044;
+              </span>
+              {player.name}
+            </li>
+          );
         })}
-      </div>
+      </ul>
+
+      <p>
+        Invite your friends with this link:
+        <input type="text" disabled={true} value={window.location.href} />
+        <button
+          onClick={async () => {
+            await navigator.clipboard.writeText(window.location.href);
+          }}
+        >
+          Copy url
+        </button>
+      </p>
+
       {isHost ? (
         <button onClick={startGame} disabled={!enoughPlayers}>
           {enoughPlayers ? "Start game!" : "Waiting for another player"}
