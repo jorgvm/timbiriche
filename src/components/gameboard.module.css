@@ -1,8 +1,16 @@
-.square {
+.board {
+  display: grid;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.room {
   position: relative;
   min-width: 50px;
   aspect-ratio: 1;
-  border: 1px solid lightgrey;
+  border: 5px solid lightgrey;
+  margin-right: -5px;
+  margin-bottom: -5px;
 }
 
 .button {

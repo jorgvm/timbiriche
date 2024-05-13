@@ -47,7 +47,17 @@ h6 {
 }
 /* --- end of reset */
 
+body {
+  min-height: 100vh;
+}
+
 button {
   background: none;
   border: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
