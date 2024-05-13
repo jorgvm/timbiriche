@@ -17,8 +17,8 @@ export const generateGameboard = (
 ): Gameboard => {
   let newGameboard: Gameboard = [];
 
-  for (let y = 0; y < maxRows; y++) {
-    for (let x = 0; x < maxCols; x++) {
+  for (let y = 0; y < maxCols; y++) {
+    for (let x = 0; x < maxRows; x++) {
       newGameboard.push({
         id: `${x}${y}`,
         x,
