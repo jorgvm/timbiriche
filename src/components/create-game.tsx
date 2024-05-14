@@ -7,12 +7,14 @@ import { useRouter } from "next/navigation";
 import { DB_COLLECTION, generateGameboard } from "../utils/board";
 import { getPlayerId } from "@/utils/player";
 
-const CreateGame = () => {
-  const [name, setName] = useState("");
+import formStyles from "./form.module.scss";
 
-  const [loading, setLoading] = useState(false);
-  const [gridSize, setGridSize] = useState("4x4");
+const CreateGame = () => {
   const router = useRouter();
+
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [gridSize, setGridSize] = useState("5x5");
 
   // Create a new game
   const handleSubmit = async (e: FormEvent) => {
@@ -54,29 +56,42 @@ const CreateGame = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <select
-          value={gridSize}
-          onChange={(e) => setGridSize(e.target.value)}
-          disabled={loading}
-        >
-          <option value="3x3">Small</option>
-          <option value="4x4">Medium</option>
-          <option value="5x5">Large</option>
-          <option value="5x7">XXL</option>
-        </select>
+    <div className={formStyles.centered}>
+      <form onSubmit={handleSubmit} className={formStyles.box}>
+        <h2>Create new game</h2>
 
-        <input
-          type="text"
-          value={name}
-          onChange={(e: any) => setName(e.target.value)}
-          disabled={loading}
-          maxLength={10}
-        />
+        <div className={formStyles.formRow}>
+          <span className={formStyles.label}>grid size:</span>
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Start game"}
+          <select
+            className={formStyles.input}
+            value={gridSize}
+            onChange={(e) => setGridSize(e.target.value)}
+            disabled={loading}
+          >
+            <option value="2x2">Small</option>
+            <option value="4x4">Medium</option>
+            <option value="5x5">Large</option>
+            <option value="5x7">XXL</option>
+          </select>
+        </div>
+
+        <div className={formStyles.formRow}>
+          <span className={formStyles.label}>name:</span>
+
+          <input
+            type="text"
+            value={name}
+            className={formStyles.input}
+            onChange={(e: any) => setName(e.target.value)}
+            disabled={loading}
+            maxLength={10}
+            minLength={3}
+          />
+        </div>
+
+        <button type="submit" disabled={loading} className={formStyles.button}>
+          {loading ? "Loading..." : "Start game!"}
         </button>
       </form>
     </div>

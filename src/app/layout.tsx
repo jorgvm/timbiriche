@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { Caesar_Dressing } from "next/font/google";
+import "./globals.scss";
+import styles from "./layout.module.scss";
 
-const inter = Inter({ subsets: ["latin"] });
+const fontCaesarDressing = Caesar_Dressing({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export const metadata: Metadata = {
   title: "Timbiriche",
@@ -16,7 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={fontCaesarDressing.className}>
+        <h1 className={styles.logo}>Timbiriche</h1>
+
+        <div className={styles.main}>{children}</div>
+      </body>
     </html>
   );
 }

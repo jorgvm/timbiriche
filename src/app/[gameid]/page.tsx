@@ -9,6 +9,7 @@ import Lobby from "@/components/lobby";
 import { getPlayerId } from "@/utils/player";
 import JoinGame from "@/components/join-game";
 import Link from "next/link";
+import Loading from "@/components/loading";
 
 type Props = {
   params: {
@@ -53,13 +54,11 @@ export default function Game({ params }: Props) {
   }
 
   if (!gameData) {
-    return <div>loading...</div>;
+    return <Loading />;
   }
 
   return (
-    <div>
-      <h1>Timbiriche</h1>
-
+    <>
       {gameData.status === "waiting-for-players" && hasJoined && (
         <Lobby gameId={gameId} gameData={gameData} />
       )}
@@ -71,6 +70,6 @@ export default function Game({ params }: Props) {
       {(gameData.status === "playing" || gameData.status === "finished") && (
         <Gameboard gameId={gameId} gameData={gameData} />
       )}
-    </div>
+    </>
   );
 }

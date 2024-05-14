@@ -1,22 +1,23 @@
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 import CreateGame from "@/components/create-game";
+import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <h1>Timbiriche</h1>
-
+    <>
       <CreateGame />
 
-      <p>
+      <p className={styles.footer}>
         <a
           href="https://github.com/jorgvm/timbiriche"
           target="_blank"
           rel="noopener noreferrer"
+          className={styles.github}
         >
-          View project on Github
+          <Image src="./github.svg" width="24" height="24" alt="Github logo" />
+          code on Github
         </a>
       </p>
-    </main>
+    </>
   );
 }
