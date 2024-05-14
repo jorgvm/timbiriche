@@ -1,9 +1,10 @@
 "use client";
 
-import { getPlayerId, playerColors } from "@/utils/player";
+import { getPlayerColor, getPlayerId, playerColors } from "@/utils/player";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { DB_COLLECTION } from "@/utils/board";
+import formStyles from "./form.module.scss";
 
 const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
   const isHost = gameData.players[0].id === getPlayerId();
@@ -23,49 +24,65 @@ const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
     await updateDoc(doc(db, DB_COLLECTION, gameId), data);
   };
 
+  const copyURL = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+  };
+
   return (
-    <div>
-      <h1>Players:</h1>
+    <div className={formStyles.centered}>
+      <div className={formStyles.box}>
+        <h2>Players</h2>
 
-      <ul>
-        {gameData.players.map((player, index) => {
-          return (
-            <li key={index}>
-              <span
-                style={{
-                  color:
-                    playerColors[
-                      gameData.players.map((i) => i.id).indexOf(player.id)
-                    ],
-                }}
-              >
-                &#11044;
-              </span>
-              {player.name}
-            </li>
-          );
-        })}
-      </ul>
+        <ul className={formStyles.list}>
+          {gameData.players.map((player, index) => {
+            return (
+              <li key={index}>
+                <span
+                  className={formStyles.playerColor}
+                  style={{
+                    color: getPlayerColor(gameData.players, player.id),
+                  }}
+                >
+                  &#11044;
+                </span>
+                {` `}
+                {player.name}
+              </li>
+            );
+          })}
+        </ul>
 
-      <p>
-        Invite your friends with this link:
-        <input type="text" disabled={true} value={window.location.href} />
+        {isHost ? (
+          <button
+            onClick={startGame}
+            className={formStyles.button}
+            // Allow singleplayer games during development
+            // disabled={!enoughPlayers}
+          >
+            Start game!
+          </button>
+        ) : (
+          <p className={formStyles.helpText}>
+            Waiting for {gameData.players[0].name} to start the game...
+          </p>
+        )}
+      </div>
+
+      <div className={formStyles.box}>
+        <p className={formStyles.helpText}>
+          Invite your friends with this link:
+        </p>
+
+        <p className={formStyles.codeText}>{window.location.href}</p>
+
         <button
-          onClick={async () => {
-            await navigator.clipboard.writeText(window.location.href);
-          }}
+          className={formStyles.buttonSecondary}
+          onClick={copyURL}
+          type="button"
         >
           Copy url
         </button>
-      </p>
-
-      {isHost ? (
-        <button onClick={startGame} disabled={!enoughPlayers}>
-          {enoughPlayers ? "Start game!" : "Waiting for another player"}
-        </button>
-      ) : (
-        <div>Waiting for {gameData.players[0].name} to start the game!</div>
-      )}
+      </div>
     </div>
   );
 };

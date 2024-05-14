@@ -5,9 +5,9 @@ const COOKIES_ID = "timbiriche-player-id";
 export const playerColors = [
   "#ffda6a", // yellow
   "#f06153", // red
-  "#5ab1f0", // blue
-  "#6dda66", // green
-  "#da66bd", // purple
+  "#53d227", // green
+  "#f121bd", // pink
+  "#3e96ea", // blue
 ];
 
 /**
@@ -49,4 +49,15 @@ export const getNextPlayer = (players: Player[], currentId?: string) => {
     // Next in array
     return players[currentPlayerIndex + 1].id;
   }
+};
+
+/**
+ * Get player color based on position in array
+ *
+ * @param players List of all players
+ * @param playerId Which player id
+ * @returns HEX color code
+ */
+export const getPlayerColor = (players: Player[], playerId: string) => {
+  return playerColors[players.map((i) => i.id).indexOf(playerId)];
 };

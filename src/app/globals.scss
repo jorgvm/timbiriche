@@ -45,7 +45,7 @@ h6 {
 #__next {
   isolation: isolate;
 }
-/* --- end of reset */
+// end of reset
 
 button {
   background: none;
@@ -54,8 +54,17 @@ button {
 
 body {
   min-height: 100vh;
-  background: #a0e6f7;
+  background: radial-gradient(circle, rgb(69 162 180) 0%, rgb(86 82 145) 100%);
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+
+  --main-yellow: #fac900;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.5;
+  margin-bottom: 1em;
 }

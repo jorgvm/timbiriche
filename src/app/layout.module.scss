@@ -1,0 +1,19 @@
+.logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 60px;
+  line-height: 1.5;
+  color: var(--main-yellow);
+  text-shadow: 0.05em 0.05em #755e00;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 90px 1em 1em;
+}

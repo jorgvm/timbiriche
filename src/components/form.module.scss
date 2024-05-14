@@ -1,0 +1,98 @@
+.centered {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 0.4);
+  background-clip: padding-box;
+  background: white;
+  border-radius: 25px;
+  margin: 1em 2em;
+  width: 100%;
+  max-width: 400px;
+  padding: 1.5em 1.5em;
+  display: flex;
+  flex-direction: column;
+
+  select,
+  input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  p {
+    margin-bottom: 1em;
+  }
+}
+
+.formRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+
+  &:last-of-type {
+    margin-bottom: 1.5em;
+  }
+}
+
+.list {
+  list-style: none;
+  list-style-position: outside;
+  margin: 0 0 1em;
+  padding: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.playerColor {
+  font-size: 2em;
+  position: relative;
+  top: -3px;
+  margin-right: 5px;
+}
+
+.label {
+  margin-right: 10px;
+  min-width: 60px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.input {
+  height: 2em;
+  box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.4);
+  border: 2px solid black;
+}
+
+.button,
+.buttonSecondary {
+  background: var(--main-yellow);
+  color: black;
+  display: inline;
+  align-self: center;
+  border: 2px solid #111;
+  border-radius: 8px;
+  box-shadow: 2px 2px 0px black;
+  padding: 4px 12px;
+  font-size: 22px;
+}
+
+.buttonSecondary {
+  background: white;
+  border-color: var(--main-yellow);
+  box-shadow: 2px 2px 0px var(--main-yellow);
+}
+
+.helpText {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.codeText {
+  font-family: "Courier New", Courier, monospace;
+}
