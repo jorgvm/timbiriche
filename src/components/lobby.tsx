@@ -1,7 +1,7 @@
 "use client";
 
+import { updateGameInDatabase } from "@/utils/firebase";
 import { getPlayerColor, getPlayerId } from "@/utils/player";
-import { updateGameInDatabase } from "../utils/firebase";
 import formStyles from "./form.module.scss";
 
 const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {

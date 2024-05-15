@@ -1,6 +1,6 @@
-import styles from "./page.module.scss";
 import CreateGame from "@/components/create-game";
 import Image from "next/image";
+import styles from "./page.module.scss";
 
 export default function Home() {
   return (

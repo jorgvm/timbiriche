@@ -1,10 +1,10 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { createGameInDatabase } from "../utils/firebase";
-import { useRouter } from "next/navigation";
-import { generateGameboard } from "../utils/board";
+import { generateGameboard } from "@/utils/board";
+import { createGameInDatabase } from "@/utils/firebase";
 import { getPlayerId } from "@/utils/player";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
 
 import formStyles from "./form.module.scss";
 

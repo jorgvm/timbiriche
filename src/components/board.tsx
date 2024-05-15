@@ -1,15 +1,15 @@
 "use client";
-
-import clsx from "clsx";
 import styles from "./board.module.scss";
-import formStyles from "./form.module.scss";
-import { generateGameboard, updateGameboard } from "../utils/board";
-import { getNextPlayer, getPlayerColor, getPlayerId } from "@/utils/player";
+
+import { generateGameboard, updateGameboard } from "@/utils/board";
+import { createGameInDatabase, updateGameInDatabase } from "@/utils/firebase";
 import { findMostFrequent } from "@/utils/helpers";
-import Loading from "./loading";
-import { useEffect } from "react";
-import { createGameInDatabase, updateGameInDatabase } from "../utils/firebase";
+import { getNextPlayer, getPlayerColor, getPlayerId } from "@/utils/player";
+import clsx from "clsx";
 import Link from "next/link";
+import { useEffect } from "react";
+import formStyles from "./form.module.scss";
+import Loading from "./loading";
 
 const Gameboard = ({
   gameId,
@@ -238,7 +238,9 @@ const Gameboard = ({
                 <span key={index}>
                   {index !== 0 && " and "}
                   <span
-                    style={{ color: getPlayerColor(gameData.players, winner) }}
+                    style={{
+                      color: getPlayerColor(gameData.players, winner),
+                    }}
                   >
                     {gameData.players.find((i) => i.id === winner)?.name}
                   </span>
