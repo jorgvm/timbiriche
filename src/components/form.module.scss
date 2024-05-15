@@ -72,6 +72,7 @@
 
 .button,
 .buttonSecondary {
+  cursor: pointer;
   background: var(--main-yellow);
   color: black;
   display: inline;
@@ -81,12 +82,21 @@
   box-shadow: 2px 2px 0px black;
   padding: 4px 12px;
   font-size: 22px;
+  text-decoration: none;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
 }
 
 .buttonSecondary {
   background: white;
   border-color: var(--main-yellow);
   box-shadow: 2px 2px 0px var(--main-yellow);
+}
+
+.center {
+  text-align: center;
 }
 
 .helpText {

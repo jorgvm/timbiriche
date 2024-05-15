@@ -162,6 +162,7 @@
 
 // Status bar showing the active player
 .status {
+  position: relative;
   display: flex;
   align-items: center;
   text-align: center;
@@ -171,8 +172,15 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 60px;
   background: #27345c;
   color: white;
   font-size: 2em;
+}
+
+// Rematch button
+.rematch {
+  position: absolute;
+  left: 50%;
+  top: -3em;
+  transform: translateX(-50%);
 }

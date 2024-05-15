@@ -1,5 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import {
+  doc,
+  onSnapshot,
+  updateDoc,
+  collection,
+  addDoc,
+} from "firebase/firestore";
+
+// The name of the database collection in Firebase
+export const DB_COLLECTION = "games";
 
 /**
  * Firebase configuration
@@ -18,3 +28,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
+
+/**
+ * Update existing game in Firebase
+ *
+ * @param gameId id of existing game
+ * @param data (partial) game data
+ * @returns Promise with gamedata
+ */
+export const updateGameInDatabase = async (
+  gameId: string,
+  data: Partial<Game>
+) => await updateDoc(doc(db, DB_COLLECTION, gameId), data);
+
+/**
+ * Create new game in Firebase
+ *
+ * @param data (partial) game data
+ * @returns Promise with generated id
+ */
+export const createGameInDatabase = async (data: Partial<Game>) =>
+  await addDoc(collection(db, DB_COLLECTION), data).then((docRef) => docRef.id);

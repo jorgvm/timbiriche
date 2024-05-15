@@ -25,4 +25,5 @@ interface Game {
   gridHeight: number;
   status: "waiting-for-players" | "playing" | "finished";
   activePlayerId?: string;
+  rematchId?: string;
 }

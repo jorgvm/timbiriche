@@ -1,9 +1,7 @@
 "use client";
 
-import { getPlayerColor, getPlayerId, playerColors } from "@/utils/player";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../utils/firebase";
-import { DB_COLLECTION } from "@/utils/board";
+import { getPlayerColor, getPlayerId } from "@/utils/player";
+import { updateGameInDatabase } from "../utils/firebase";
 import formStyles from "./form.module.scss";
 
 const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
@@ -15,13 +13,11 @@ const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
     const activePlayerId =
       gameData.players[Math.floor(Math.random() * gameData.players.length)].id;
 
-    const data: Partial<Game> = {
+    // Update gamedate in Firebase
+    await updateGameInDatabase(gameId, {
       status: "playing",
       activePlayerId,
-    };
-
-    // Update gamedate in Firebase
-    await updateDoc(doc(db, DB_COLLECTION, gameId), data);
+    });
   };
 
   const copyURL = async () => {

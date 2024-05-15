@@ -1,6 +1,3 @@
-// The name of the database collection in Firebase
-export const DB_COLLECTION = "games";
-
 /**
  * Generate a simple board filled with rooms
  * Each room has a top/right/bottom/left wall
