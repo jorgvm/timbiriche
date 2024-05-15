@@ -1,13 +1,15 @@
 "use client";
 
 import clsx from "clsx";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "@/utils/firebase";
 import styles from "./board.module.scss";
-import { DB_COLLECTION, updateGameboard } from "../utils/board";
+import formStyles from "./form.module.scss";
+import { generateGameboard, updateGameboard } from "../utils/board";
 import { getNextPlayer, getPlayerColor, getPlayerId } from "@/utils/player";
 import { findMostFrequent } from "@/utils/helpers";
 import Loading from "./loading";
+import { useEffect } from "react";
+import { createGameInDatabase, updateGameInDatabase } from "../utils/firebase";
+import Link from "next/link";
 
 const Gameboard = ({
   gameId,
@@ -25,7 +27,7 @@ const Gameboard = ({
   );
 
   // Is it the local players turn
-  const myTurn = activePlayer?.id === localPlayer?.id;
+  const myTurn = localPlayer?.id && localPlayer.id === activePlayer?.id;
 
   // Are all rooms claimed?
   const gameIsFinished = !gameData.gameboard.find((i) => !i.owner);
@@ -60,7 +62,7 @@ const Gameboard = ({
       }
     });
 
-    // Check who is the next player. If a room was claimed, the current user gets to play again
+    // Check which player is next. If a room was claimed, the current user gets to play again
     const nextPlayer = roomClaimed
       ? localPlayer.id
       : getNextPlayer(gameData.players, gameData.activePlayerId);
@@ -75,10 +77,41 @@ const Gameboard = ({
     };
 
     // Update gamedate in Firebase
-    await updateDoc(doc(db, DB_COLLECTION, gameId), data);
+    await updateGameInDatabase(gameId, data);
   };
 
-  if (!gameData || !localPlayer) {
+  useEffect(() => {
+    const createRematch = async () => {
+      // Generate game data
+      const rematchData: Game = {
+        players: gameData.players,
+        gameboard: generateGameboard(gameData.gridWidth, gameData.gridHeight),
+        gridWidth: gameData.gridWidth,
+        gridHeight: gameData.gridHeight,
+        status: "waiting-for-players",
+      };
+
+      // Create new game in Firebase
+      const rematchId = await createGameInDatabase(rematchData);
+
+      // Set rematch id in finished game
+      const data: Partial<Game> = {
+        rematchId,
+      };
+
+      // Update gamedate in Firebase
+      updateGameInDatabase(gameId, data);
+    };
+
+    const isHost = gameData.players[0].id === getPlayerId();
+
+    // As the host, create a new game
+    if (gameIsFinished && isHost && !gameData.rematchId) {
+      createRematch();
+    }
+  }, [gameIsFinished, gameId, gameData]);
+
+  if (!gameData) {
     return <Loading />;
   }
 
@@ -202,18 +235,28 @@ const Gameboard = ({
             Draw! {` `}
             {playersWithMostRooms.map((winner, index) => {
               return (
-                <>
+                <span key={index}>
                   {index !== 0 && " and "}
                   <span
                     style={{ color: getPlayerColor(gameData.players, winner) }}
                   >
                     {gameData.players.find((i) => i.id === winner)?.name}
                   </span>
-                </>
+                </span>
               );
             })}
             {` `}won the game!
           </p>
+        )}
+
+        {/* Create new game */}
+        {gameIsFinished && gameData.rematchId && (
+          <Link
+            className={clsx(formStyles.button, styles.rematch)}
+            href={gameData.rematchId}
+          >
+            Rematch!
+          </Link>
         )}
       </div>
     </div>

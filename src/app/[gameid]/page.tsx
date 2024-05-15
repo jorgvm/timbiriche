@@ -3,21 +3,23 @@
 import Gameboard from "@/components/board";
 import { useEffect, useState } from "react";
 import { onSnapshot, doc } from "firebase/firestore";
-import { DB_COLLECTION } from "@/utils/board";
-import { db } from "@/utils/firebase";
+
+import { DB_COLLECTION, db } from "@/utils/firebase";
 import Lobby from "@/components/lobby";
 import { getPlayerId } from "@/utils/player";
 import JoinGame from "@/components/join-game";
 import Link from "next/link";
 import Loading from "@/components/loading";
+import formStyles from "@/components/form.module.scss";
+import clsx from "clsx";
 
-type Props = {
+type PageProps = {
   params: {
     gameid: string;
   };
 };
 
-export default function Game({ params }: Props) {
+export default function Game({ params }: PageProps) {
   const [gameData, setGameData] = useState<Game>();
   const [error, setError] = useState(false);
 
@@ -26,11 +28,11 @@ export default function Game({ params }: Props) {
   // Check if local player has already joined the game
   const hasJoined = gameData?.players.find((i) => i.id === getPlayerId());
 
-  // Fetch data from Firebsae
+  // Fetch data from Firebase
   useEffect(() => {
-    async function getData() {
-      // Using onSnapShot will keep fetching the latest data
-      onSnapshot(doc(db, DB_COLLECTION, gameId), (docSnap) => {
+    const unsubscribe = onSnapshot(
+      doc(db, DB_COLLECTION, gameId),
+      (docSnap) => {
         if (docSnap.exists()) {
           setGameData(docSnap.data() as Game);
         } else {
@@ -38,17 +40,25 @@ export default function Game({ params }: Props) {
           setError(true);
           return;
         }
-      });
-    }
+      }
+    );
 
-    getData();
+    return () => unsubscribe();
   }, [gameId]);
 
   if (error) {
     return (
-      <div>
-        <p>This game doesn&lsquo;t exist</p>
-        <Link href="/">Create new game!</Link>
+      <div className={formStyles.centered}>
+        <div className={formStyles.box}>
+          <p className={clsx(formStyles.helpText, formStyles.center)}>
+            Oops, wrong link? <br />
+            This game doesn&lsquo;t exist...
+          </p>
+
+          <Link className={formStyles.button} href="/">
+            Create new game!
+          </Link>
+        </div>
       </div>
     );
   }

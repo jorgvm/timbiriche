@@ -1,10 +1,9 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { db } from "../utils/firebase";
-import { DB_COLLECTION } from "../utils/board";
+import { updateGameInDatabase } from "../utils/firebase";
 import { getPlayerId } from "@/utils/player";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { arrayUnion } from "firebase/firestore";
 import formStyles from "./form.module.scss";
 
 const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
@@ -27,7 +26,7 @@ const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
     };
 
     // Update gamedate in Firebase
-    await updateDoc(doc(db, DB_COLLECTION, gameId), {
+    await updateGameInDatabase(gameId, {
       players: arrayUnion(newPlayer) as unknown as Player[],
     });
   };
@@ -48,6 +47,7 @@ const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
             disabled={loading}
             maxLength={10}
             minLength={3}
+            required
           />
         </div>
 
