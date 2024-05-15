@@ -1,12 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import {
-  doc,
-  onSnapshot,
-  updateDoc,
-  collection,
-  addDoc,
-} from "firebase/firestore";
+import { doc, updateDoc, collection, addDoc } from "firebase/firestore";
 
 // The name of the database collection in Firebase
 export const DB_COLLECTION = "games";

@@ -1,17 +1,16 @@
 "use client";
 
 import Gameboard from "@/components/board";
-import { useEffect, useState } from "react";
-import { onSnapshot, doc } from "firebase/firestore";
-
-import { DB_COLLECTION, db } from "@/utils/firebase";
-import Lobby from "@/components/lobby";
-import { getPlayerId } from "@/utils/player";
-import JoinGame from "@/components/join-game";
-import Link from "next/link";
-import Loading from "@/components/loading";
 import formStyles from "@/components/form.module.scss";
+import JoinGame from "@/components/join-game";
+import Loading from "@/components/loading";
+import Lobby from "@/components/lobby";
+import { DB_COLLECTION, db } from "@/utils/firebase";
+import { getPlayerId } from "@/utils/player";
 import clsx from "clsx";
+import { doc, onSnapshot } from "firebase/firestore";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type PageProps = {
   params: {

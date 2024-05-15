@@ -1,9 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { updateGameInDatabase } from "../utils/firebase";
+import { updateGameInDatabase } from "@/utils/firebase";
 import { getPlayerId } from "@/utils/player";
 import { arrayUnion } from "firebase/firestore";
+import { FormEvent, useState } from "react";
 import formStyles from "./form.module.scss";
 
 const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
