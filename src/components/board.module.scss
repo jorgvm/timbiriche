@@ -66,13 +66,17 @@
 }
 
 // Lift room when hovering
-.room:not(.roomOwned):hover {
-  z-index: 1;
-  transform: translate(7%, -7%);
-  filter: brightness(1.2);
-}
+// Disable for now
+
+// .room:not(.roomOwned):hover {
+// z-index: 1;
+// transform: translate(7%, -7%);
+// filter: brightness(1.2);
+// }
 
 .wall {
+  --wall-width: 10%;
+
   // The wall element is a hit area (button)
   cursor: pointer;
   position: absolute;
@@ -109,7 +113,7 @@
 
   &::before {
     width: 100%;
-    height: 10%;
+    height: var(--wall-width);
   }
 }
 
@@ -117,17 +121,18 @@
   clip-path: polygon(50% 50%, 100% 0%, 100% 100%);
 
   &::before {
-    width: 10px;
+    width: var(--wall-width);
     height: 100%;
   }
 }
 
 .wallBottom {
   clip-path: polygon(50% 50%, 100% 100%, 0% 100%);
+  z-index: 1;
 
   &::before {
     width: 100%;
-    height: 10%;
+    height: var(--wall-width);
     top: 90%;
   }
 }
@@ -136,7 +141,7 @@
   clip-path: polygon(0% 0%, 50% 50%, 0% 100%);
 
   &::before {
-    width: 10%;
+    width: var(--wall-width);
     height: 100%;
     top: 0;
     left: 0px;

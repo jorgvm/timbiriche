@@ -2,18 +2,20 @@
 
 import { generateGameboard } from "@/utils/board";
 import { createGameInDatabase } from "@/utils/firebase";
-import { getPlayerId } from "@/utils/player";
+import { COOKIES_NAME, getPlayerId } from "@/utils/player";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
+import { playSound } from "@/utils/sound";
 import formStyles from "./form.module.scss";
 
 const CreateGame = () => {
   const router = useRouter();
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(Cookies.get(COOKIES_NAME) || "");
   const [loading, setLoading] = useState(false);
-  const [gridSize, setGridSize] = useState("2x2");
+  const [gridSize, setGridSize] = useState("3x3");
 
   // Create a new game
   const handleSubmit = async (e: FormEvent) => {
@@ -52,6 +54,9 @@ const CreateGame = () => {
       .catch((e) => {
         setLoading(false);
       });
+
+    Cookies.set(COOKIES_NAME, name);
+    playSound("button");
   };
 
   return (
@@ -76,7 +81,7 @@ const CreateGame = () => {
         </div>
 
         <div className={formStyles.formRow}>
-          <span className={formStyles.label}>name:</span>
+          <span className={formStyles.label}>your name:</span>
 
           <input
             type="text"

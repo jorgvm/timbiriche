@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 
-const COOKIES_ID = "timbiriche-player-id";
+export const COOKIES_ID = "timbiriche-player-id";
+export const COOKIES_NAME = "timbiriche-player-name";
 
 export const playerColors = [
   "#ffda6a", // yellow

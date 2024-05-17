@@ -20,7 +20,6 @@
 
   select,
   input {
-    flex: 1;
     min-width: 0;
   }
 
@@ -30,7 +29,8 @@
 }
 
 .formRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   margin-bottom: 1em;
 
@@ -60,7 +60,6 @@
 
 .label {
   margin-right: 10px;
-  min-width: 60px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -68,6 +67,7 @@
   height: 2em;
   box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.4);
   border: 2px solid black;
+  padding: 5px;
 }
 
 .button,

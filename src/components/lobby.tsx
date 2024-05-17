@@ -2,11 +2,12 @@
 
 import { updateGameInDatabase } from "@/utils/firebase";
 import { getPlayerColor, getPlayerId } from "@/utils/player";
+import { playSound } from "@/utils/sound";
+import { useEffect } from "react";
 import formStyles from "./form.module.scss";
 
 const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
   const isHost = gameData.players[0].id === getPlayerId();
-  const enoughPlayers = gameData.players.length > 1;
 
   const startGame = async () => {
     // Pick a random player to be first
@@ -23,6 +24,14 @@ const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
   const copyURL = async () => {
     await navigator.clipboard.writeText(window.location.href);
   };
+
+  useEffect(() => {
+    const otherPlayers = gameData.players.filter((i) => i.id !== getPlayerId());
+
+    if (otherPlayers.length > 0) {
+      playSound("new-player");
+    }
+  }, [gameData]);
 
   return (
     <div className={formStyles.centered}>
