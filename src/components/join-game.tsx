@@ -2,7 +2,9 @@
 
 import { updateGameInDatabase } from "@/utils/firebase";
 import { getPlayerId } from "@/utils/player";
+import { playSound } from "@/utils/sound";
 import { arrayUnion } from "firebase/firestore";
+import Link from "next/link";
 import { FormEvent, useState } from "react";
 import formStyles from "./form.module.scss";
 
@@ -29,7 +31,23 @@ const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
     await updateGameInDatabase(gameId, {
       players: arrayUnion(newPlayer) as unknown as Player[],
     });
+
+    playSound("button");
   };
+
+  if (gameData.players.length > 1) {
+    return (
+      <div className={formStyles.centered}>
+        <div className={formStyles.box}>
+          <p className={formStyles.center}>This game is full!</p>
+
+          <Link className={formStyles.button} href="/">
+            Create new game!
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={formStyles.centered}>
@@ -37,7 +55,7 @@ const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
         <h2>Join game</h2>
 
         <div className={formStyles.formRow}>
-          <span className={formStyles.label}>name:</span>
+          <span className={formStyles.label}>your name:</span>
 
           <input
             type="text"

@@ -5,6 +5,7 @@ import { generateGameboard, updateGameboard } from "@/utils/board";
 import { createGameInDatabase, updateGameInDatabase } from "@/utils/firebase";
 import { findMostFrequent } from "@/utils/helpers";
 import { getNextPlayer, getPlayerColor, getPlayerId } from "@/utils/player";
+import { playSound } from "@/utils/sound";
 import clsx from "clsx";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -18,8 +19,20 @@ const Gameboard = ({
   gameId: string;
   gameData: Game;
 }) => {
-  // The player in this browser
   const localPlayer = gameData?.players.find((i) => i.id === getPlayerId());
+  const amountOfWalls = gameData?.gameboard.reduce(
+    (prev, cur) =>
+      prev +
+      Number(!!cur.top) +
+      Number(!!cur.right) +
+      Number(!!cur.bottom) +
+      Number(!!cur.left),
+    0
+  );
+  const amountOfRooms = gameData?.gameboard.reduce(
+    (prev, cur) => prev + Number(!!cur.owner),
+    0
+  );
 
   // Which players gets to play next
   const activePlayer = gameData.players.find(
@@ -79,6 +92,38 @@ const Gameboard = ({
     // Update gamedate in Firebase
     await updateGameInDatabase(gameId, data);
   };
+
+  useEffect(() => {
+    console.log("start");
+    playSound("start-game");
+  }, []);
+
+  // Wall built
+  useEffect(() => {
+    if (amountOfWalls > 0) {
+      playSound("build-wall");
+    }
+  }, [amountOfWalls]);
+
+  // Room built
+  useEffect(() => {
+    if (amountOfRooms > 0) {
+      playSound("build-room");
+    }
+  }, [amountOfRooms]);
+
+  // Game finished
+  useEffect(() => {
+    if (gameIsFinished) {
+      if (playersWithMostRooms.includes(getPlayerId())) {
+        playSound("won-game");
+      } else {
+        playSound("lost-game");
+      }
+    }
+  }, [gameIsFinished, playersWithMostRooms, localPlayer]);
+
+  console.log({ playersWithMostRooms, localPlayer });
 
   useEffect(() => {
     const createRematch = async () => {
@@ -256,6 +301,7 @@ const Gameboard = ({
           <Link
             className={clsx(formStyles.button, styles.rematch)}
             href={gameData.rematchId}
+            onClick={() => playSound("button")}
           >
             Rematch!
           </Link>
