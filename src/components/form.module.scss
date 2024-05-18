@@ -1,22 +1,22 @@
 .centered {
-  flex: 1;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .box {
-  box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 0.4);
-  background-clip: padding-box;
-  background: white;
-  border-radius: 25px;
-  margin: 1rem 2em;
-  width: 100%;
-  max-width: 400px;
-  padding: 1.5em 1.5em;
   display: flex;
   flex-direction: column;
+  margin: 1rem 2em;
+  box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 0.4);
+  border-radius: 25px;
+  background-clip: padding-box;
+  background: white;
+  padding: 1.5em 1.5em;
+  width: 100%;
+  max-width: 400px;
 
   select,
   input {
@@ -36,10 +36,10 @@
 }
 
 .list {
-  list-style: none;
-  list-style-position: outside;
   margin: 0 0 1rem;
   padding: 0;
+  list-style: none;
+  list-style-position: outside;
 
   li {
     display: flex;
@@ -48,10 +48,10 @@
 }
 
 .playerColor {
-  font-size: 2em;
   position: relative;
   top: -3px;
   margin-right: 5px;
+  font-size: 2em;
 }
 
 .label {
@@ -60,23 +60,23 @@
 }
 
 .input {
-  height: 2em;
   box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.4);
   border: 2px solid black;
   padding: 5px;
+  height: 2em;
 }
 
 .button,
 .buttonSecondary {
-  cursor: pointer;
-  background: var(--main-yellow);
-  color: black;
   display: inline;
   align-self: center;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px black;
   border: 2px solid #111;
   border-radius: 8px;
-  box-shadow: 2px 2px 0px black;
+  background: var(--main-yellow);
   padding: 4px 12px;
+  color: black;
   font-size: 22px;
   text-decoration: none;
 
@@ -86,9 +86,9 @@
 }
 
 .buttonSecondary {
-  background: white;
-  border-color: var(--main-yellow);
   box-shadow: 2px 2px 0px var(--main-yellow);
+  border-color: var(--main-yellow);
+  background: white;
 }
 
 .center {

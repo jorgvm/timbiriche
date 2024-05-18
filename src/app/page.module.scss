@@ -1,16 +1,16 @@
 .github {
-  margin-top: auto;
   display: inline-flex;
   align-items: center;
-  color: black;
+  margin-top: auto;
+  margin: 0 auto;
+  border-radius: 5px;
   background: white;
   padding: 5px 7px;
-  border-radius: 5px;
-  font-family: Arial, Helvetica, sans-serif;
-  text-decoration: none;
-  margin: 0 auto;
+  color: black;
   font-weight: bold;
   font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
 
   img {
     margin-right: 5px;
