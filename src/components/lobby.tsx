@@ -42,12 +42,13 @@ const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
     <div className={formStyles.centered}>
       <div className={formStyles.box}>
         <p className={formStyles.helpText}>
-          To play the game, invite your friends!
-          <br />
-          Send them this link:
+          To play the game, invite your friends!{" "}
+          <strong>Send them this link:</strong>
         </p>
 
-        <p className={formStyles.codeText}>{window.location.href}</p>
+        <p className={formStyles.codeText}>
+          {window.location.href.replace("https://", "")}
+        </p>
 
         <button
           className={formStyles.buttonSecondary}
