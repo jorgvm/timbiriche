@@ -3,13 +3,15 @@
 import { generateGameboard } from "@/utils/board";
 import { createGameInDatabase } from "@/utils/firebase";
 import { COOKIES_NAME, getPlayerId } from "@/utils/player";
+import { playSound } from "@/utils/sound";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-
-import { playSound } from "@/utils/sound";
 import formStyles from "./form.module.scss";
 
+/**
+ * A form to create a new game
+ */
 const CreateGame = () => {
   const router = useRouter();
 
@@ -73,7 +75,7 @@ const CreateGame = () => {
             onChange={(e) => setGridSize(e.target.value)}
             disabled={loading}
           >
-            <option value="2x2">Small</option>
+            <option value="3x3">Small</option>
             <option value="4x4">Medium</option>
             <option value="5x5">Large</option>
             <option value="5x7">XXL</option>

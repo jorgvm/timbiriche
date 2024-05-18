@@ -1,3 +1,4 @@
+import Header from "@/components/header";
 import type { Metadata } from "next";
 import { Caesar_Dressing } from "next/font/google";
 import "./globals.scss";
@@ -13,18 +14,20 @@ export const metadata: Metadata = {
   description: "Timbiriche (dots and boxes) game",
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
     <html lang="en">
       <body className={fontCaesarDressing.className}>
-        <h1 className={styles.logo}>Timbiriche</h1>
+        <Header />
 
         <div className={styles.main}>{children}</div>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

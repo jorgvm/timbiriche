@@ -1,5 +1,3 @@
-"use client";
-
 import { updateGameInDatabase } from "@/utils/firebase";
 import { getPlayerId } from "@/utils/player";
 import { playSound } from "@/utils/sound";
@@ -8,11 +6,13 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import formStyles from "./form.module.scss";
 
+/**
+ * A form where users can join an existing game that has not started yet
+ */
 const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Join game
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -21,6 +21,7 @@ const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
     }
 
     setLoading(true);
+    playSound("button");
 
     const newPlayer: Player = {
       id: getPlayerId(),
@@ -31,8 +32,6 @@ const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
     await updateGameInDatabase(gameId, {
       players: arrayUnion(newPlayer) as unknown as Player[],
     });
-
-    playSound("button");
   };
 
   if (gameData.players.length > 1) {

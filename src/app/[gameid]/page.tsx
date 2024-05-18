@@ -1,10 +1,11 @@
 "use client";
 
-import Gameboard from "@/components/board";
 import formStyles from "@/components/form.module.scss";
+import Gameboard from "@/components/gameboard";
 import JoinGame from "@/components/join-game";
 import Loading from "@/components/loading";
 import Lobby from "@/components/lobby";
+import Rules from "@/components/rules";
 import { DB_COLLECTION, db } from "@/utils/firebase";
 import { getPlayerId } from "@/utils/player";
 import clsx from "clsx";
@@ -18,7 +19,7 @@ type PageProps = {
   };
 };
 
-export default function Game({ params }: PageProps) {
+const Page = ({ params }: PageProps) => {
   const [gameData, setGameData] = useState<Game>();
   const [error, setError] = useState(false);
 
@@ -49,14 +50,16 @@ export default function Game({ params }: PageProps) {
     return (
       <div className={formStyles.centered}>
         <div className={formStyles.box}>
-          <p className={clsx(formStyles.helpText, formStyles.center)}>
-            Oops, wrong link? <br />
-            This game doesn&lsquo;t exist...
-          </p>
+          <div>
+            <p className={clsx(formStyles.helpText, formStyles.center)}>
+              Oops, wrong link? <br />
+              This game doesn&lsquo;t exist...
+            </p>
 
-          <Link className={formStyles.button} href="/">
-            Create new game!
-          </Link>
+            <Link className={formStyles.button} href="/">
+              Create new game!
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -68,6 +71,8 @@ export default function Game({ params }: PageProps) {
 
   return (
     <>
+      <Rules />
+
       {gameData.status === "waiting-for-players" && hasJoined && (
         <Lobby gameId={gameId} gameData={gameData} />
       )}
@@ -81,4 +86,6 @@ export default function Game({ params }: PageProps) {
       )}
     </>
   );
-}
+};
+
+export default Page;

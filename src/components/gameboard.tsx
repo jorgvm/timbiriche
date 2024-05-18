@@ -1,6 +1,3 @@
-"use client";
-import styles from "./board.module.scss";
-
 import { generateGameboard, updateGameboard } from "@/utils/board";
 import { createGameInDatabase, updateGameInDatabase } from "@/utils/firebase";
 import { findMostFrequent } from "@/utils/helpers";
@@ -10,8 +7,12 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useEffect } from "react";
 import formStyles from "./form.module.scss";
+import styles from "./gameboard.module.scss";
 import Loading from "./loading";
 
+/**
+ * The gameboard containing the actual game
+ */
 const Gameboard = ({
   gameId,
   gameData,
@@ -93,26 +94,25 @@ const Gameboard = ({
     await updateGameInDatabase(gameId, data);
   };
 
+  // Sound effects
   useEffect(() => {
-    console.log("start");
-    playSound("start-game");
-  }, []);
+    if (!gameIsFinished) {
+      playSound("start-game", 0.3);
+    }
+  }, [gameIsFinished]);
 
-  // Wall built
   useEffect(() => {
-    if (amountOfWalls > 0) {
+    if (!gameIsFinished && amountOfWalls > 0) {
       playSound("build-wall");
     }
-  }, [amountOfWalls]);
+  }, [gameIsFinished, amountOfWalls]);
 
-  // Room built
   useEffect(() => {
-    if (amountOfRooms > 0) {
-      playSound("build-room");
+    if (!gameIsFinished && amountOfRooms > 0) {
+      playSound("build-room", 0.8);
     }
-  }, [amountOfRooms]);
+  }, [gameIsFinished, amountOfRooms]);
 
-  // Game finished
   useEffect(() => {
     if (gameIsFinished) {
       if (playersWithMostRooms.includes(getPlayerId())) {
@@ -122,8 +122,6 @@ const Gameboard = ({
       }
     }
   }, [gameIsFinished, playersWithMostRooms, localPlayer]);
-
-  console.log({ playersWithMostRooms, localPlayer });
 
   useEffect(() => {
     const createRematch = async () => {
@@ -226,7 +224,7 @@ const Gameboard = ({
       <div className={styles.status}>
         {/* My turn to play */}
         {myTurn && (
-          <p>
+          <span>
             {" "}
             <span
               style={{
@@ -236,12 +234,12 @@ const Gameboard = ({
               Your
             </span>{" "}
             turn!
-          </p>
+          </span>
         )}
 
         {/* Not my turn */}
         {activePlayer?.id && !myTurn && (
-          <p>
+          <span>
             waiting for {` `}
             <span
               style={{
@@ -251,12 +249,12 @@ const Gameboard = ({
               {activePlayer?.name}
             </span>
             {` `}...
-          </p>
+          </span>
         )}
 
         {/* One winner */}
         {gameIsFinished && playersWithMostRooms.length === 1 && (
-          <p>
+          <span>
             <span
               style={{
                 color: getPlayerColor(
@@ -271,12 +269,12 @@ const Gameboard = ({
               }
             </span>{" "}
             won the game!
-          </p>
+          </span>
         )}
 
         {/* Multiple winners */}
         {gameIsFinished && playersWithMostRooms.length > 1 && (
-          <p>
+          <span>
             Draw! {` `}
             {playersWithMostRooms.map((winner, index) => {
               return (
@@ -293,7 +291,7 @@ const Gameboard = ({
               );
             })}
             {` `}won the game!
-          </p>
+          </span>
         )}
 
         {/* Create new game */}

@@ -2,7 +2,10 @@ import CreateGame from "@/components/create-game";
 import Image from "next/image";
 import styles from "./page.module.scss";
 
-export default function Home() {
+/**
+ * Homepage with form to create game
+ */
+const Page = () => {
   return (
     <>
       <CreateGame />
@@ -20,4 +23,6 @@ export default function Home() {
       </p>
     </>
   );
-}
+};
+
+export default Page;
