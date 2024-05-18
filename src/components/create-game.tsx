@@ -10,7 +10,7 @@ import { FormEvent, useState } from "react";
 import formStyles from "./form.module.scss";
 
 /**
- * A form to create a new game
+ * Form to create a new game
  */
 const CreateGame = () => {
   const router = useRouter();
@@ -78,7 +78,6 @@ const CreateGame = () => {
             <option value="3x3">Small</option>
             <option value="4x4">Medium</option>
             <option value="5x5">Large</option>
-            <option value="5x7">XXL</option>
           </select>
         </div>
 
