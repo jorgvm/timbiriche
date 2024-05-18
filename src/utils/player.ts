@@ -15,7 +15,7 @@ export const playerColors = [
  * Returns existing id set in cookies
  * If not set yet, generate new id and write to cookie
  *
- * @returns id from cookie or generator
+ * @returns player id from cookie or generator
  */
 export const getPlayerId = () => {
   let playerId = Cookies.get(COOKIES_ID);
@@ -57,7 +57,7 @@ export const getNextPlayer = (players: Player[], currentId?: string) => {
  *
  * @param players List of all players
  * @param playerId Which player id
- * @returns HEX color code
+ * @returns HEX color code string
  */
 export const getPlayerColor = (players: Player[], playerId: string) => {
   return playerColors[players.map((i) => i.id).indexOf(playerId)];

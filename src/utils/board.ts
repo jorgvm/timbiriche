@@ -1,7 +1,5 @@
 /**
  * Generate a simple board filled with rooms
- * Each room has a top/right/bottom/left wall
- * An owner will be set once all walls are built
  *
  * @param maxRows Amount of rows
  * @param maxCols Amount of columns
@@ -28,7 +26,7 @@ export const generateGameboard = (
 };
 
 /**
- * Update the board
+ * Update the gameboard
  *
  * @param gameboard The previous state of the board
  * @param room The selected room that has to be updated
@@ -54,7 +52,7 @@ export const updateGameboard = ({
       i[side] = player.id;
     }
 
-    // Most rooms share a wall. Easy fix: update the neighbouring room as well
+    // Rooms share walls with adjacent rooms, so update the neighbouring room as well
     if (
       !i["right"] &&
       side === "left" &&

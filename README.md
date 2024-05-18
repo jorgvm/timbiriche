@@ -1,18 +1,24 @@
 # Timbiriche
 
-In Timbiriche (dots and boxes), the gameboard has rooms with four walls. Players take turns building a wall.
-When a room has all walls, the room is owned by a player, and the player gets to build one more wall.
-When all rooms are built, the player with the most rooms wins.
+A multiplayer game of Timbiriche ("dots and boxes"). Built to have some fun using Next.js / React and Firebase.
 
 ## Play
 
-Play the game: [play-timbiriche.vercel.app](play-timbiriche.vercel.app)
+You can play the game online here: [play-timbiriche.vercel.app](play-timbiriche.vercel.app).
 
-To test the game by yourself, open the same game url in another browser (or incognito).
+To quickly test the game by yourself, open the same game url in another browser (or incognito).
 
-## Getting Started
+## Rules
 
-First, run the development server:
+The gameboard has rooms with four walls:
+
+- Players take turns building a wall
+- When a player builds the last wall of room, the player owns that room
+- When all rooms are built, the player with the most rooms wins
+
+## Local development
+
+To run the development server:
 
 ```bash
 yarn dev
@@ -20,8 +26,18 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser
 
-## Firebase
+## Firebase database
 
-Create your own free Firebase database on [firebase.google.com](https://firebase.google.com/).
+To play the game on your local environment, you need your own Firebase database.
 
-Then add the keys to `.env.local`
+- Create your own free Firebase database on [firebase.google.com](https://firebase.google.com/).
+- Then add the keys to `.env.local`
+- The game will create the data structure itself
+
+# Attribution / credits
+
+Thanks to:
+
+- [mixkit.co](https://mixkit.co) for sound effects
+- [udio.com](https://www.udio.com) for generating music
+- [svgrepo.com](https://www.svgrepo.com) for svg icons

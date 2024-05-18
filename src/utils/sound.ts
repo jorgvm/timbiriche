@@ -6,11 +6,17 @@ const audioTypes = {
   "won-game": "sfx-2063.mp3",
   "start-game": "sfx-2041.mp3",
   "new-player": "sfx-605.mp3",
-  button: "sfx-253.mp3",
+  button: "sfx-2358.mp3",
 };
 
 type AudioFile = keyof typeof audioTypes;
 
+/**
+ * Play a sound
+ *
+ * @param type what type of sound should be played
+ * @param volume optional volume, for example 0.5
+ */
 export const playSound = (type: AudioFile, volume?: number) => {
   let audio = new Audio(`/sound/${audioTypes[type]}`);
 
