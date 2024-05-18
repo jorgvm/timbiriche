@@ -1,58 +1,58 @@
 .root {
-  overflow: hidden;
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
 .board {
-  flex: 1;
   display: grid;
-  max-width: 500px;
   position: relative;
+  flex: 1;
 
   // Isometric view
   transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg) scale(0.67)
     translate(20%, -20%);
+  max-width: 500px;
 }
 
 .room {
+  position: relative;
+  transition: all 0.6s;
+  margin: 1px;
+  background: currentColor;
+  aspect-ratio: 1;
   // default room color
   color: #f4f4f4;
-  aspect-ratio: 1;
-  position: relative;
-  background: currentColor;
-  margin: 1px;
-  transition: all 0.6s;
 
   // Dark edge for 3d effect, bottom left
   &::before,
   &::after {
-    content: "";
     display: block;
     position: absolute;
-    aspect-ratio: 1;
-    width: 10%;
-    background: currentColor;
-    height: 110%;
     top: 0px;
     left: -10%;
     clip-path: polygon(0% 9%, 100% 0, 100% 91%, 0% 100%);
     filter: brightness(65%);
+    background: currentColor;
+    aspect-ratio: 1;
+    width: 10%;
+    height: 110%;
+    content: "";
   }
 
   // Dark edge for 3d effect, bottom right
   &::after {
-    content: "";
     display: block;
     position: absolute;
-    aspect-ratio: 1;
-    background: currentColor;
-    width: 110%;
-    height: 10%;
     top: 100%;
     left: -10%;
     clip-path: polygon(9% 0%, 100% 0, 91% 100%, 0% 100%);
     filter: brightness(75%);
+    background: currentColor;
+    aspect-ratio: 1;
+    width: 110%;
+    height: 10%;
+    content: "";
   }
 }
 
@@ -76,17 +76,17 @@
 
 .wall {
   --wall-width: 10%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.4s;
 
   // The wall element is a hit area (button)
   cursor: pointer;
-  position: absolute;
-  color: inherit;
   padding: 0;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  transition: all 0.4s;
+  color: inherit;
 
   &:focus {
     // Hide the hit area for mobile devices
@@ -95,15 +95,15 @@
 
   // The dark border to indicate a wall is actually set in the before element
   &::before {
-    content: "";
     display: block;
+    position: absolute;
     top: 0;
     right: 0%;
-    position: absolute;
-    background: currentColor;
-    filter: brightness(0.5);
     opacity: 0;
+    filter: brightness(0.5);
     transition: all 0.2s;
+    background: currentColor;
+    content: "";
   }
 }
 
@@ -127,13 +127,13 @@
 }
 
 .wallBottom {
-  clip-path: polygon(50% 50%, 100% 100%, 0% 100%);
   z-index: 1;
+  clip-path: polygon(50% 50%, 100% 100%, 0% 100%);
 
   &::before {
+    top: 90%;
     width: 100%;
     height: var(--wall-width);
-    top: 90%;
   }
 }
 
@@ -141,10 +141,10 @@
   clip-path: polygon(0% 0%, 50% 50%, 0% 100%);
 
   &::before {
-    width: var(--wall-width);
-    height: 100%;
     top: 0;
     left: 0px;
+    width: var(--wall-width);
+    height: 100%;
   }
 }
 
@@ -156,36 +156,36 @@
 .shadow {
   display: block;
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  filter: blur(16px);
-  z-index: -5;
   bottom: -10%;
   left: -10%;
+  z-index: -5;
+  filter: blur(16px);
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
 }
 
 // Status bar showing the active player
 .status {
-  position: relative;
   display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  padding: 10px;
+  position: relative;
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
   background: #27345c;
+  padding: 10px;
+  width: 100%;
   color: white;
   font-size: 2em;
+  text-align: center;
 }
 
 // Rematch button
 .rematch {
   position: absolute;
-  left: 50%;
   top: -3em;
+  left: 50%;
   transform: translateX(-50%);
 }

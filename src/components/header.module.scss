@@ -1,26 +1,26 @@
 .logo {
-  text-align: center;
-  font-size: 50px;
-  line-height: 1.5;
-  color: var(--main-yellow);
-  text-shadow: 0.05em 0.05em #755e00;
-  margin: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 1rem;
   cursor: pointer;
+  margin: 0;
+  color: var(--main-yellow);
+  font-size: 50px;
+  line-height: 1.5;
+  text-align: center;
+  text-shadow: 0.05em 0.05em #755e00;
 
   &:hover {
     filter: brightness(1.1);
   }
 
   img {
-    background: var(--main-yellow);
-    border-radius: 50%;
     flex: 0 0 30px;
-    height: 30px;
+    border-radius: 50%;
+    background: var(--main-yellow);
     padding: 2px;
+    height: 30px;
   }
 }
 
