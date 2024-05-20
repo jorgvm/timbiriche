@@ -1,5 +1,5 @@
 import { updateGameInDatabase } from "@/utils/firebase";
-import { getPlayerId } from "@/utils/player";
+import { getPlayerId, maxPlayerNameLength, playerColors } from "@/utils/player";
 import { playSound } from "@/utils/sound";
 import { arrayUnion } from "firebase/firestore";
 import Link from "next/link";
@@ -34,7 +34,7 @@ const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
     });
   };
 
-  if (gameData.players.length > 1) {
+  if (gameData.players.length > playerColors.length) {
     return (
       <div className={formStyles.centered}>
         <div className={formStyles.box}>
@@ -62,7 +62,7 @@ const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
             className={formStyles.input}
             onChange={(e: any) => setName(e.target.value)}
             disabled={loading}
-            maxLength={10}
+            maxLength={maxPlayerNameLength}
             minLength={3}
             required
           />
