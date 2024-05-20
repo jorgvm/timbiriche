@@ -65,15 +65,6 @@
   transform: translate(-7%, 7%);
 }
 
-// Lift room when hovering
-// Disable for now
-
-// .room:not(.roomOwned):hover {
-// z-index: 1;
-// transform: translate(7%, -7%);
-// filter: brightness(1.2);
-// }
-
 .wall {
   --wall-width: 10%;
   position: absolute;

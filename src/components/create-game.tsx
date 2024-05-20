@@ -2,7 +2,7 @@
 
 import { generateGameboard } from "@/utils/board";
 import { createGameInDatabase } from "@/utils/firebase";
-import { COOKIES_NAME, getPlayerId } from "@/utils/player";
+import { COOKIES_NAME, getPlayerId, maxPlayerNameLength } from "@/utils/player";
 import { playSound } from "@/utils/sound";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -67,7 +67,7 @@ const CreateGame = () => {
         <h2>New game</h2>
 
         <div className={formStyles.formRow}>
-          <span className={formStyles.label}>grid size:</span>
+          <span className={formStyles.label}>game size:</span>
 
           <select
             className={formStyles.input}
@@ -90,7 +90,7 @@ const CreateGame = () => {
             className={formStyles.input}
             onChange={(e: any) => setName(e.target.value)}
             disabled={loading}
-            maxLength={10}
+            maxLength={maxPlayerNameLength}
             minLength={3}
             required
           />

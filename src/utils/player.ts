@@ -3,6 +3,8 @@ import Cookies from "js-cookie";
 export const COOKIES_ID = "timbiriche-player-id";
 export const COOKIES_NAME = "timbiriche-player-name";
 
+export const maxPlayerNameLength = 30;
+
 export const playerColors = [
   "#ffda6a", // yellow
   "#f06153", // red
