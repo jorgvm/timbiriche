@@ -7,7 +7,7 @@ import { COOKIES_NAME, getPlayerId, maxPlayerNameLength } from "@/utils/player";
 import { playSound } from "@/utils/sound";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import formStyles from "./form.module.scss";
 
 /**
@@ -16,7 +16,7 @@ import formStyles from "./form.module.scss";
 const CreateGame = () => {
   const router = useRouter();
 
-  const [name, setName] = useState(Cookies.get(COOKIES_NAME) || "");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [gridSize, setGridSize] = useState("3x3");
   const isAdmin = checkIfAdmin(name);
@@ -62,6 +62,10 @@ const CreateGame = () => {
     Cookies.set(COOKIES_NAME, name);
     playSound("button");
   };
+
+  useEffect(() => {
+    setName(Cookies.get(COOKIES_NAME) || "");
+  }, []);
 
   return (
     <div className={formStyles.centered}>
