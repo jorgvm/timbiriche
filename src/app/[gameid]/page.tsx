@@ -50,16 +50,14 @@ const Page = ({ params }: PageProps) => {
     return (
       <div className={formStyles.centered}>
         <div className={formStyles.box}>
-          <div>
-            <p className={clsx(formStyles.helpText, formStyles.center)}>
-              Oops, wrong link? <br />
-              This game doesn&lsquo;t exist...
-            </p>
+          <p className={clsx(formStyles.helpText, formStyles.center)}>
+            Oops, wrong link? <br />
+            This game doesn&lsquo;t exist...
+          </p>
 
-            <Link className={formStyles.button} href="/">
-              Create new game!
-            </Link>
-          </div>
+          <Link className={formStyles.button} href="/">
+            Create new game!
+          </Link>
         </div>
       </div>
     );

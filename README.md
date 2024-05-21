@@ -30,9 +30,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser
 
 To play the game on your local environment, you need your own Firebase database.
 
-- Create your own free Firebase database on [firebase.google.com](https://firebase.google.com/).
-- Then add the keys to `.env.local`
-- The game will create the data structure itself
+- Create your own free Firebase database on [firebase.google.com](https://firebase.google.com/)
+- Add the keys to `.env.local`
+- The game will create the data structure on Firebase
 
 # Attribution / credits
 

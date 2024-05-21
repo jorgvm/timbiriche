@@ -11,7 +11,7 @@ const fontCaesarDressing = Caesar_Dressing({
 
 export const metadata: Metadata = {
   title: "Timbiriche",
-  description: "Timbiriche (dots and boxes) game",
+  description: "A multiplayer game built with Next.js (React) and Firebase",
 };
 
 const RootLayout = ({
