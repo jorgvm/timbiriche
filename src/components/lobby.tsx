@@ -1,4 +1,5 @@
 import { updateGameInDatabase } from "@/utils/firebase";
+import { checkIfAdmin } from "@/utils/helpers";
 import { getPlayerColor, getPlayerId } from "@/utils/player";
 import { playSound } from "@/utils/sound";
 import { useEffect } from "react";
@@ -11,7 +12,7 @@ import formStyles from "./form.module.scss";
  */
 const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
   const isHost = gameData.players[0].id === getPlayerId();
-  const isAdmin = gameData.players[0].name === "admin";
+  const isAdmin = checkIfAdmin(gameData.players[0].name);
 
   const startGame = async () => {
     // Pick a random player to be first

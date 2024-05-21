@@ -2,6 +2,7 @@
 
 import { generateGameboard } from "@/utils/board";
 import { createGameInDatabase } from "@/utils/firebase";
+import { checkIfAdmin } from "@/utils/helpers";
 import { COOKIES_NAME, getPlayerId, maxPlayerNameLength } from "@/utils/player";
 import { playSound } from "@/utils/sound";
 import Cookies from "js-cookie";
@@ -18,6 +19,7 @@ const CreateGame = () => {
   const [name, setName] = useState(Cookies.get(COOKIES_NAME) || "");
   const [loading, setLoading] = useState(false);
   const [gridSize, setGridSize] = useState("3x3");
+  const isAdmin = checkIfAdmin(name);
 
   // Create a new game
   const handleSubmit = async (e: FormEvent) => {
@@ -75,6 +77,7 @@ const CreateGame = () => {
             onChange={(e) => setGridSize(e.target.value)}
             disabled={loading}
           >
+            {isAdmin && <option value="1x1">Tiny</option>}
             <option value="3x3">Small</option>
             <option value="4x4">Medium</option>
             <option value="5x5">Large</option>

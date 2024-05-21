@@ -31,3 +31,10 @@ export const findMostFrequent = (arr: any[]) => {
 
   return mostFrequent;
 };
+
+/**
+ * Simple check to see if current player is admin
+ * @param name string
+ * @returns boolean
+ */
+export const checkIfAdmin = (name: string) => name.toLowerCase() === "admin";
