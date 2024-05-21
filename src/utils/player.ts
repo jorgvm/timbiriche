@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { v4 as uuidv4 } from "uuid";
 
 export const COOKIES_ID = "timbiriche-player-id";
 export const COOKIES_NAME = "timbiriche-player-name";
@@ -23,7 +24,8 @@ export const getPlayerId = () => {
   let playerId = Cookies.get(COOKIES_ID);
 
   if (!playerId) {
-    playerId = crypto.randomUUID();
+    playerId = uuidv4();
+
     Cookies.set(COOKIES_ID, playerId);
   }
 

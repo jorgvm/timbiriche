@@ -20,7 +20,10 @@ const Gameboard = ({
   gameId: string;
   gameData: Game;
 }) => {
+  // The player in this browser
   const localPlayer = gameData?.players.find((i) => i.id === getPlayerId());
+
+  // Check how many walls are set
   const amountOfWalls = gameData?.gameboard.reduce(
     (prev, cur) =>
       prev +
@@ -30,12 +33,14 @@ const Gameboard = ({
       Number(!!cur.left),
     0
   );
+
+  // Check how many rooms are set
   const amountOfRooms = gameData?.gameboard.reduce(
     (prev, cur) => prev + Number(!!cur.owner),
     0
   );
 
-  // Which players gets to play next
+  // Which players gets to play now
   const activePlayer = gameData.players.find(
     (i) => i.id === gameData.activePlayerId
   );
@@ -176,9 +181,7 @@ const Gameboard = ({
               color: room.owner
                 ? getPlayerColor(gameData.players, room.owner)
                 : undefined,
-              // test all playercolours
-              // color:
-              //   playerColors[Math.floor(Math.random() * playerColors.length)],
+              // set zIndex so tiles closer to the screen overlap correctly
               zIndex: -room.x,
             }}
           >
