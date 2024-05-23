@@ -84,7 +84,15 @@ const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
 
         {/* We need at least one more player to start the game! */}
         {isHost && gameData.players.length < 2 && (
-          <p className={formStyles.helpText}>Waiting for more players...</p>
+          <>
+            <p className={formStyles.helpText}>
+              Waiting for at least one more player...
+            </p>
+            <p className={formStyles.helpText}>
+              (if you want to test by yourself, open the link in an incognito
+              window)
+            </p>
+          </>
         )}
 
         {/* Allow "admin" to play by itself for testing purposes */}

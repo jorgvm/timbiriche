@@ -4,7 +4,7 @@ A multiplayer game of Timbiriche ("dots and boxes"). Built to have some fun usin
 
 ## Play
 
-You can play the game online here: [play-timbiriche.vercel.app](play-timbiriche.vercel.app).
+You can play the game online here: [play-timbiriche.vercel.app](https://play-timbiriche.vercel.app).
 
 To quickly test the game by yourself, open the same game url in another browser (or incognito).
 
