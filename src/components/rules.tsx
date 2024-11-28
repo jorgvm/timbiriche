@@ -26,11 +26,11 @@ const Rules = () => {
           <p>Players take turns building a wall.</p>
 
           <p>
-            Did you build the last wall? Now you own that room and get to place
-            one more wall!
+            If you build the fourth wall you get a point and get to build
+            another wall!
           </p>
 
-          <p>The player with most rooms wins!</p>
+          <p>The player with most points wins!</p>
         </div>
 
         <button

@@ -1,4 +1,4 @@
-import { generateGameboard, updateGameboard } from "@/utils/board";
+import { botPlayer, generateGameboard, updateGameboard } from "@/utils/board";
 import { createGameInDatabase, updateGameInDatabase } from "@/utils/firebase";
 import { findMostFrequent } from "@/utils/helpers";
 import { getNextPlayer, getPlayerColor, getPlayerId } from "@/utils/player";
@@ -22,6 +22,10 @@ const Gameboard = ({
 }) => {
   // The player in this browser
   const localPlayer = gameData?.players.find((i) => i.id === getPlayerId());
+
+  const isBotPlaying = Boolean(
+    gameData?.players.find((i) => i.id === botPlayer.id)
+  );
 
   // Check how many walls are set
   const amountOfWalls = gameData?.gameboard.reduce(
@@ -56,34 +60,38 @@ const Gameboard = ({
   const playersWithMostRooms: string[] =
     findMostFrequent(roomOwnerIds).filter(Boolean);
 
-  const handleWallClick = async (side: Side, room: Room) => {
+  const handleWallClick = async (side: Side, room: Room, id?: string) => {
     // Prevent action if data is not available, if it's not the players turn, or the wall is already built
     if (!localPlayer || !myTurn || room[side]) {
       return;
     }
 
+    buildWall(side, room, localPlayer);
+  };
+
+  const buildWall = async (side: Side, room: Room, player: Player) => {
     // Keep track if user claimed a room (built all walls)
     let roomClaimed = false;
 
     // Update gameboard
     const updatedGameBoard = updateGameboard({
       gameboard: gameData.gameboard,
-      room,
+      room: gameData.gameboard.find((i) => i.id === room.id)!,
       side,
-      player: localPlayer,
+      player: player,
     });
 
-    // If all walls are built, set owner
+    // User built last wall and claims a room
     updatedGameBoard.map((i) => {
       if (!i.owner && i.top && i.right && i.bottom && i.left) {
-        i.owner = localPlayer.id;
+        i.owner = player.id;
         roomClaimed = true;
       }
     });
 
     // Check which player is next. If a room was claimed, the current user gets to play again
     const nextPlayer = roomClaimed
-      ? localPlayer.id
+      ? player.id
       : getNextPlayer(gameData.players, gameData.activePlayerId);
 
     // If all rooms are taken, the game is finished
@@ -108,13 +116,13 @@ const Gameboard = ({
 
   useEffect(() => {
     if (!gameIsFinished && amountOfWalls > 0) {
-      playSound("build-wall");
+      playSound("build-wall", 0.8);
     }
   }, [gameIsFinished, amountOfWalls]);
 
   useEffect(() => {
     if (!gameIsFinished && amountOfRooms > 0) {
-      playSound("build-room", 0.8);
+      playSound("build-room", 0.6);
     }
   }, [gameIsFinished, amountOfRooms]);
 
@@ -128,6 +136,7 @@ const Gameboard = ({
     }
   }, [gameIsFinished, playersWithMostRooms, localPlayer]);
 
+  // Check if game is finished
   useEffect(() => {
     const createRematch = async () => {
       // Generate game data
@@ -136,7 +145,8 @@ const Gameboard = ({
         gameboard: generateGameboard(gameData.gridWidth, gameData.gridHeight),
         gridWidth: gameData.gridWidth,
         gridHeight: gameData.gridHeight,
-        status: "waiting-for-players",
+        status: isBotPlaying ? "playing" : "waiting-for-players",
+        activePlayerId: isBotPlaying ? getPlayerId() : undefined,
       };
 
       // Create new game in Firebase
@@ -153,11 +163,45 @@ const Gameboard = ({
 
     const isHost = gameData.players[0].id === getPlayerId();
 
-    // As the host, create a new game
+    // When finished, as the host, create a new game
     if (gameIsFinished && isHost && !gameData.rematchId) {
       createRematch();
     }
   }, [gameIsFinished, gameId, gameData]);
+
+  // Actions by OpenAI bot
+  useEffect(() => {
+    const botMove = async () => {
+      const req = await fetch("api/openai", {
+        method: "POST",
+        body: JSON.stringify({
+          grid: gameData.gameboard,
+        }),
+      });
+
+      const { error, data } = await req.json();
+
+      if (error) {
+        // Bot failed to pick a wall. User gets to play again.
+        await updateGameInDatabase(gameId, {
+          ...gameData,
+          activePlayerId: getNextPlayer(gameData.players, botPlayer.id),
+        });
+
+        return;
+      }
+
+      buildWall(
+        data.side,
+        gameData.gameboard.find((room) => room.id === data.id)!,
+        botPlayer
+      );
+    };
+
+    if (!gameIsFinished && gameData.activePlayerId === botPlayer.id) {
+      botMove();
+    }
+  }, [gameIsFinished, gameData.gameboard, gameData.activePlayerId]);
 
   if (!gameData) {
     return <Loading />;
@@ -176,12 +220,13 @@ const Gameboard = ({
         {gameData?.gameboard?.map((room, index) => (
           <div
             key={index}
+            data-id={room.id}
             className={clsx(styles.room, room.owner && styles.roomOwned)}
             style={{
               color: room.owner
                 ? getPlayerColor(gameData.players, room.owner)
                 : undefined,
-              // set zIndex so tiles closer to the screen overlap correctly
+              // set zIndex so tiles properly overlap
               zIndex: -room.x,
             }}
           >
