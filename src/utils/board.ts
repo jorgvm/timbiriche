@@ -18,6 +18,10 @@ export const generateGameboard = (
         id: `${x}${y}`,
         x,
         y,
+        left: "",
+        right: "",
+        top: "",
+        bottom: "",
       });
     }
   }
@@ -89,3 +93,6 @@ export const updateGameboard = ({
 
     return i;
   });
+
+// Bot player
+export const botPlayer = { id: "bot", name: "Timbi BoT" };

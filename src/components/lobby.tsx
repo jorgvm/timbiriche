@@ -88,10 +88,6 @@ const Lobby = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
             <p className={formStyles.helpText}>
               Waiting for at least one more player...
             </p>
-            <p className={formStyles.helpText}>
-              (if you want to test by yourself, open the link in an incognito
-              window)
-            </p>
           </>
         )}
 

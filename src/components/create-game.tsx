@@ -1,6 +1,6 @@
 "use client";
 
-import { generateGameboard } from "@/utils/board";
+import { botPlayer, generateGameboard } from "@/utils/board";
 import { createGameInDatabase } from "@/utils/firebase";
 import { checkIfAdmin } from "@/utils/helpers";
 import { COOKIES_NAME, getPlayerId, maxPlayerNameLength } from "@/utils/player";
@@ -22,9 +22,7 @@ const CreateGame = () => {
   const isAdmin = checkIfAdmin(name);
 
   // Create a new game
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async (playAgainstAi: boolean) => {
     // Prevent empty name
     if (name == "") {
       return;
@@ -36,18 +34,33 @@ const CreateGame = () => {
     const [gridWidth, gridHeight] = gridSize.split("x").map((i) => Number(i));
 
     // Generate game data
-    const gameData: Game = {
-      players: [
-        {
-          id: getPlayerId(),
-          name,
-        },
-      ],
-      gameboard: generateGameboard(gridWidth, gridHeight),
-      gridWidth,
-      gridHeight,
-      status: "waiting-for-players",
-    };
+    const gameData: Game = playAgainstAi
+      ? {
+          players: [
+            {
+              id: getPlayerId(),
+              name,
+            },
+            botPlayer,
+          ],
+          gameboard: generateGameboard(gridWidth, gridHeight),
+          gridWidth,
+          gridHeight,
+          status: "playing",
+          activePlayerId: getPlayerId(),
+        }
+      : {
+          players: [
+            {
+              id: getPlayerId(),
+              name,
+            },
+          ],
+          gameboard: generateGameboard(gridWidth, gridHeight),
+          gridWidth,
+          gridHeight,
+          status: "waiting-for-players",
+        };
 
     // Create new game in Firebase
     await createGameInDatabase(gameData)
@@ -69,7 +82,7 @@ const CreateGame = () => {
 
   return (
     <div className={formStyles.centered}>
-      <form onSubmit={handleSubmit} className={formStyles.box}>
+      <form onSubmit={(e) => e.preventDefault()} className={formStyles.box}>
         <h2>New game</h2>
 
         <div className={formStyles.formRow}>
@@ -103,9 +116,25 @@ const CreateGame = () => {
           />
         </div>
 
-        <button type="submit" disabled={loading} className={formStyles.button}>
-          {loading ? "Loading..." : "Create game"}
-        </button>
+        <div className={formStyles.cta}>
+          <button
+            type="button"
+            disabled={loading}
+            className={formStyles.button}
+            onClick={() => handleSubmit(false)}
+          >
+            Create game
+          </button>
+
+          <button
+            type="button"
+            disabled={loading}
+            className={formStyles.button}
+            onClick={() => handleSubmit(true)}
+          >
+            Play against AI!
+          </button>
+        </div>
       </form>
     </div>
   );
