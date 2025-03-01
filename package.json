@@ -38,5 +38,5 @@
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4"
   },
-  "packageManager": "yarn@4.6.0"
+  "packageManager": "pnpm@9.3.0"
 }
