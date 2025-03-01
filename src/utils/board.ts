@@ -1,3 +1,5 @@
+import { Gameboard, Player, Room, Side } from "@/types";
+
 /**
  * Generate a simple board filled with rooms
  *
@@ -10,7 +12,7 @@ export const generateGameboard = (
   maxRows: number,
   maxCols: number
 ): Gameboard => {
-  let newGameboard: Gameboard = [];
+  const newGameboard: Gameboard = [];
 
   for (let y = 0; y < maxCols; y++) {
     for (let x = 0; x < maxRows; x++) {

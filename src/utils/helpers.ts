@@ -8,11 +8,10 @@
  * @param arr Array of values
  * @return Array of the one or more strings that were found most often
  */
-export const findMostFrequent = (arr: any[]) => {
+export const findMostFrequent = (arr: unknown[]) => {
   const countMap = new Map();
   let mostFrequent = [arr[0]];
   let maxCount = 0;
-  let draw = false;
 
   for (let i = 0; i < arr.length; i++) {
     const value = arr[i];
@@ -20,10 +19,8 @@ export const findMostFrequent = (arr: any[]) => {
     countMap.set(value, count);
 
     if (count === maxCount) {
-      draw = true;
       mostFrequent.push(value);
     } else if (count > maxCount) {
-      draw = false;
       mostFrequent = [value];
       maxCount = count;
     }
