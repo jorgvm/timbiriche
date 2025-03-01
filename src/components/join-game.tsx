@@ -60,7 +60,9 @@ const JoinGame = ({ gameId, gameData }: { gameId: string; gameData: Game }) => {
             type="text"
             value={name}
             className={formStyles.input}
-            onChange={(e: any) => setName(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
             disabled={loading}
             maxLength={maxPlayerNameLength}
             minLength={3}

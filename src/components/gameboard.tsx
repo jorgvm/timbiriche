@@ -60,7 +60,7 @@ const Gameboard = ({
   const playersWithMostRooms: string[] =
     findMostFrequent(roomOwnerIds).filter(Boolean);
 
-  const handleWallClick = async (side: Side, room: Room, id?: string) => {
+  const handleWallClick = async (side: Side, room: Room) => {
     // Prevent action if data is not available, if it's not the players turn, or the wall is already built
     if (!localPlayer || !myTurn || room[side]) {
       return;

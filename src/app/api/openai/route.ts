@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     const openAiData = await openAiResponse.json();
 
     // Check if the answer by openAI is possible
-    let choice = checkAnswer(
+    const choice = checkAnswer(
       openAiData?.choices?.[0].message?.content,
       data.grid
     );
@@ -55,7 +55,8 @@ const checkAnswer = (data: string, gameboard: Gameboard) => {
 
     // Choice was not valid
     return undefined;
-  } catch (e) {
+  } catch (e: unknown) {
+    console.error(e);
     return undefined;
   }
 };

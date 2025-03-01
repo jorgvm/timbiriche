@@ -18,7 +18,7 @@ type AudioFile = keyof typeof audioTypes;
  * @param volume optional volume, for example 0.5
  */
 export const playSound = (type: AudioFile, volume?: number) => {
-  let audio = new Audio(`/sound/${audioTypes[type]}`);
+  const audio = new Audio(`/sound/${audioTypes[type]}`);
 
   audio.volume = volume || 1;
 
@@ -30,7 +30,7 @@ export const playSound = (type: AudioFile, volume?: number) => {
  * Chrome requires interaction before it allows sound
  */
 export const playMusic = () => {
-  let audio = new Audio(`/sound/${audioTypes["music-1"]}`);
+  const audio = new Audio(`/sound/${audioTypes["music-1"]}`);
   audio.volume = 0.2;
 
   audio.addEventListener("canplaythrough", () => {

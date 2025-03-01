@@ -1,9 +1,9 @@
-interface Player {
+export interface Player {
   id: string;
   name: string;
 }
 
-interface Room {
+export interface Room {
   id: string;
   owner?: string;
   top?: string;
@@ -14,11 +14,11 @@ interface Room {
   y: number;
 }
 
-type Side = "top" | "right" | "bottom" | "left";
+export type Side = "top" | "right" | "bottom" | "left";
 
-type Gameboard = Room[];
+export type Gameboard = Room[];
 
-interface Game {
+export interface Game {
   gameboard: Gameboard;
   players: Player[];
   gridWidth: number;
