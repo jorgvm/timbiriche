@@ -11,15 +11,16 @@ import { getPlayerId } from "@/utils/player";
 import clsx from "clsx";
 import { doc, onSnapshot } from "firebase/firestore";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     gameid: string;
-  };
+  }>;
 };
 
-const Page = ({ params }: PageProps) => {
+const Page = (props: PageProps) => {
+  const params = use(props.params);
   const [gameData, setGameData] = useState<Game>();
   const [error, setError] = useState(false);
 
