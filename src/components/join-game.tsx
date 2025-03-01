@@ -5,6 +5,7 @@ import { arrayUnion } from "firebase/firestore";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import formStyles from "./form.module.scss";
+import { Game, Player } from "@/types";
 
 /**
  * A form where users can join an existing game that has not started yet

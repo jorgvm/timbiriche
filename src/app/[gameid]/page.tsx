@@ -6,6 +6,7 @@ import JoinGame from "@/components/join-game";
 import Loading from "@/components/loading";
 import Lobby from "@/components/lobby";
 import Rules from "@/components/rules";
+import { Game } from "@/types";
 import { DB_COLLECTION, db } from "@/utils/firebase";
 import { getPlayerId } from "@/utils/player";
 import clsx from "clsx";

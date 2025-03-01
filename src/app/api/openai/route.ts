@@ -1,4 +1,5 @@
 // This API receives a grid and returns a choice made by Open AI.
+import { Room, Gameboard, Side } from "@/types";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {

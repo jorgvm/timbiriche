@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import formStyles from "./form.module.scss";
+import { Game } from "@/types";
 
 /**
  * Form to create a new game

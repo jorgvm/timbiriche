@@ -8,7 +8,7 @@
  * @param arr Array of values
  * @return Array of the one or more strings that were found most often
  */
-export const findMostFrequent = (arr: unknown[]) => {
+export const findMostFrequent = <T>(arr: T[]) => {
   const countMap = new Map();
   let mostFrequent = [arr[0]];
   let maxCount = 0;
@@ -35,3 +35,12 @@ export const findMostFrequent = (arr: unknown[]) => {
  * @returns boolean
  */
 export const checkIfAdmin = (name: string) => name.toLowerCase() === "admin";
+
+/**
+ * A simple filter that is typescript safe
+ */
+export const isDefined = <T>(
+  value: T | null | undefined
+): value is NonNullable<T> => {
+  return value !== null && value !== undefined;
+};

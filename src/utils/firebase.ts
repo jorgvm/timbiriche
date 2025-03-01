@@ -1,3 +1,4 @@
+import { Game } from "@/types";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { doc, updateDoc, collection, addDoc } from "firebase/firestore";
