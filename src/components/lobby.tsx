@@ -4,6 +4,7 @@ import { getPlayerColor, getPlayerId } from "@/utils/player";
 import { playSound } from "@/utils/sound";
 import { useEffect } from "react";
 import formStyles from "./form.module.scss";
+import { Game } from "@/types";
 
 /**
  * An overview of players

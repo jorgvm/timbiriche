@@ -1,6 +1,6 @@
 import { botPlayer, generateGameboard, updateGameboard } from "@/utils/board";
 import { createGameInDatabase, updateGameInDatabase } from "@/utils/firebase";
-import { findMostFrequent } from "@/utils/helpers";
+import { findMostFrequent, isDefined } from "@/utils/helpers";
 import { getNextPlayer, getPlayerColor, getPlayerId } from "@/utils/player";
 import { playSound } from "@/utils/sound";
 import clsx from "clsx";
@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import formStyles from "./form.module.scss";
 import styles from "./gameboard.module.scss";
 import Loading from "./loading";
+import { Game, Side, Room, Player } from "@/types";
 
 /**
  * The gameboard containing the actual game
@@ -56,9 +57,9 @@ const Gameboard = ({
   const gameIsFinished = !gameData.gameboard.find((i) => !i.owner);
 
   // Calculate which player owns the most rooms
-  const roomOwnerIds = gameData.gameboard.map((i) => i.owner).filter(Boolean);
+  const roomOwnerIds = gameData.gameboard.map((i) => i.owner).filter(isDefined);
   const playersWithMostRooms: string[] =
-    findMostFrequent(roomOwnerIds).filter(Boolean);
+    findMostFrequent(roomOwnerIds).filter(isDefined);
 
   const handleWallClick = async (side: Side, room: Room) => {
     // Prevent action if data is not available, if it's not the players turn, or the wall is already built
