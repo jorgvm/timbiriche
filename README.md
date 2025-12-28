@@ -4,7 +4,7 @@ A multiplayer game of Timbiriche ("dots and boxes"). Built to have some fun usin
 
 ## Play
 
-You can play the game online here: [timbiriche-neon.vercel.app](https://timbiriche-neon.vercel.app/).
+You can play the game online here: [playtimbiriche.vercel.app](https://playtimbiriche.vercel.app/).
 
 To test the game by yourself, either:
 
@@ -42,14 +42,7 @@ To play the game on your local environment, you need your own Firebase database.
 - Add the keys to `.env.local`
 - The game will create the data structure on Firebase
 
-## Open AI
-
-To play against the AI:
-
-- Create your own API key on [platform.openai.com](https://platform.openai.com)
-- Add the token and organisation to `.env.local`
-
-# Attribution / credits
+# Attribution
 
 Thanks to:
 
@@ -60,8 +53,4 @@ Thanks to:
 
 ### Two players
 
-![Example of two players](https://timbiriche-neon.vercel.app/example-two-players.gif)
-
-### Playing against AI
-
-![Example of two players](https://timbiriche-neon.vercel.app/example-against-ai.gif)
+![Example of two players game](https://playtimbiriche.vercel.app/example-two-players.gif)

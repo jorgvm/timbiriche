@@ -1,6 +1,6 @@
 "use client";
 
-import { botPlayer, generateGameboard } from "@/utils/board";
+import { generateGameboard } from "@/utils/board";
 import { createGameInDatabase } from "@/utils/firebase";
 import { checkIfAdmin } from "@/utils/helpers";
 import { COOKIES_NAME, getPlayerId, maxPlayerNameLength } from "@/utils/player";
@@ -23,7 +23,7 @@ const CreateGame = () => {
   const isAdmin = checkIfAdmin(name);
 
   // Create a new game
-  const handleSubmit = async (playAgainstAi: boolean) => {
+  const handleSubmit = async () => {
     // Prevent empty name
     if (name == "") {
       return;
@@ -35,33 +35,18 @@ const CreateGame = () => {
     const [gridWidth, gridHeight] = gridSize.split("x").map((i) => Number(i));
 
     // Generate game data
-    const gameData: Game = playAgainstAi
-      ? {
-          players: [
-            {
-              id: getPlayerId(),
-              name,
-            },
-            botPlayer,
-          ],
-          gameboard: generateGameboard(gridWidth, gridHeight),
-          gridWidth,
-          gridHeight,
-          status: "playing",
-          activePlayerId: getPlayerId(),
-        }
-      : {
-          players: [
-            {
-              id: getPlayerId(),
-              name,
-            },
-          ],
-          gameboard: generateGameboard(gridWidth, gridHeight),
-          gridWidth,
-          gridHeight,
-          status: "waiting-for-players",
-        };
+    const gameData: Game = {
+      players: [
+        {
+          id: getPlayerId(),
+          name,
+        },
+      ],
+      gameboard: generateGameboard(gridWidth, gridHeight),
+      gridWidth,
+      gridHeight,
+      status: "waiting-for-players",
+    };
 
     // Create new game in Firebase
     await createGameInDatabase(gameData)
@@ -124,18 +109,9 @@ const CreateGame = () => {
             type="button"
             disabled={loading}
             className={formStyles.button}
-            onClick={() => handleSubmit(false)}
+            onClick={handleSubmit}
           >
             Create game
-          </button>
-
-          <button
-            type="button"
-            disabled={loading}
-            className={formStyles.button}
-            onClick={() => handleSubmit(true)}
-          >
-            Play against AI!
           </button>
         </div>
       </form>
