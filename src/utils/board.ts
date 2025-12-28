@@ -95,6 +95,3 @@ export const updateGameboard = ({
 
     return i;
   });
-
-// Bot player
-export const botPlayer = { id: "bot", name: "Timbi BoT" };

@@ -1,4 +1,4 @@
-import { botPlayer, generateGameboard, updateGameboard } from "@/utils/board";
+import { generateGameboard, updateGameboard } from "@/utils/board";
 import { createGameInDatabase, updateGameInDatabase } from "@/utils/firebase";
 import { findMostFrequent, isDefined } from "@/utils/helpers";
 import { getNextPlayer, getPlayerColor, getPlayerId } from "@/utils/player";
@@ -23,10 +23,6 @@ const Gameboard = ({
 }) => {
   // The player in this browser
   const localPlayer = gameData?.players.find((i) => i.id === getPlayerId());
-
-  const isBotPlaying = Boolean(
-    gameData?.players.find((i) => i.id === botPlayer.id)
-  );
 
   // Check how many walls are set
   const amountOfWalls = gameData?.gameboard.reduce(
@@ -146,8 +142,8 @@ const Gameboard = ({
         gameboard: generateGameboard(gameData.gridWidth, gameData.gridHeight),
         gridWidth: gameData.gridWidth,
         gridHeight: gameData.gridHeight,
-        status: isBotPlaying ? "playing" : "waiting-for-players",
-        activePlayerId: isBotPlaying ? getPlayerId() : undefined,
+        status: "waiting-for-players",
+        activePlayerId: undefined,
       };
 
       // Create new game in Firebase
@@ -169,40 +165,6 @@ const Gameboard = ({
       createRematch();
     }
   }, [gameIsFinished, gameId, gameData]);
-
-  // Actions by OpenAI bot
-  useEffect(() => {
-    const botMove = async () => {
-      const req = await fetch("api/openai", {
-        method: "POST",
-        body: JSON.stringify({
-          grid: gameData.gameboard,
-        }),
-      });
-
-      const { error, data } = await req.json();
-
-      if (error) {
-        // Bot failed to pick a wall. User gets to play again.
-        await updateGameInDatabase(gameId, {
-          ...gameData,
-          activePlayerId: getNextPlayer(gameData.players, botPlayer.id),
-        });
-
-        return;
-      }
-
-      buildWall(
-        data.side,
-        gameData.gameboard.find((room) => room.id === data.id)!,
-        botPlayer
-      );
-    };
-
-    if (!gameIsFinished && gameData.activePlayerId === botPlayer.id) {
-      botMove();
-    }
-  }, [gameIsFinished, gameData.gameboard, gameData.activePlayerId]);
 
   if (!gameData) {
     return <Loading />;
